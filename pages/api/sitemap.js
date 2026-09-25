@@ -2,16 +2,21 @@
 // Generates XML sitemap for SEO
 
 import prisma from '../../lib/db';
+import { SITE_URL } from '../../lib/site';
+import { getAllPosts } from '../../lib/mdx';
 
 export default async function handler(req, res) {
-    const baseUrl = process.env.NEXT_PUBLIC_APP_URL || 'https://edutrackhub.com';
+    const baseUrl = SITE_URL;
 
     // Static pages
     const staticPages = [
         { url: '/', priority: '1.0', changefreq: 'weekly' },
         { url: '/classes', priority: '0.9', changefreq: 'daily' },
+        { url: '/score-review', priority: '0.9', changefreq: 'monthly' },
         { url: '/about', priority: '0.8', changefreq: 'monthly' },
         { url: '/contact', priority: '0.7', changefreq: 'monthly' },
+        { url: '/faq', priority: '0.6', changefreq: 'monthly' },
+        { url: '/blog', priority: '0.6', changefreq: 'weekly' },
         { url: '/login', priority: '0.5', changefreq: 'monthly' },
         { url: '/signup', priority: '0.6', changefreq: 'monthly' },
         { url: '/privacy', priority: '0.3', changefreq: 'yearly' },
@@ -35,7 +40,13 @@ export default async function handler(req, res) {
         console.error('Failed to fetch classes for sitemap:', error);
     }
 
-    const allPages = [...staticPages, ...classPages];
+    const blogPages = getAllPosts().map(p => ({
+        url: `/blog/${p.slug}`,
+        priority: '0.6',
+        changefreq: 'monthly',
+    }));
+
+    const allPages = [...staticPages, ...blogPages, ...classPages];
 
     const sitemap = `<?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">

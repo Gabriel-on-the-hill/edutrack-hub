@@ -1,0 +1,304 @@
+{
+  "sample": true,
+  "student": "Tolu A. (Grade 11)",
+  "first_name": "Tolu",
+  "programme": "December SAT Sprint",
+  "month": "October 2026",
+  "tutor": "Gabriel",
+  "test_name": "SAT",
+  "test_date": "2026-12-05",
+  "report_date": "2026-10-31",
+  "target": {
+    "score": 1300
+  },
+  "attendance": {
+    "attended": 7,
+    "scheduled": 8
+  },
+  "homework": {
+    "done": 11,
+    "set": 12
+  },
+  "practice": [
+    {
+      "date": "2026-09-28",
+      "total": 1180,
+      "rw": 610,
+      "math": 570
+    },
+    {
+      "date": "2026-10-12",
+      "total": 1220,
+      "rw": 630,
+      "math": 590
+    },
+    {
+      "date": "2026-10-26",
+      "total": 1260,
+      "rw": 650,
+      "math": 610
+    }
+  ],
+  "skills_before": {
+    "II.CID": [
+      4,
+      5
+    ],
+    "II.COE_T": [
+      3,
+      4
+    ],
+    "II.COE_Q": [
+      2,
+      3
+    ],
+    "II.INF": [
+      3,
+      4
+    ],
+    "CS.WIC": [
+      6,
+      7
+    ],
+    "CS.TSP": [
+      3,
+      4
+    ],
+    "CS.CTC": [
+      2,
+      2
+    ],
+    "EOI.TRA": [
+      3,
+      5
+    ],
+    "EOI.SYN": [
+      4,
+      5
+    ],
+    "SEC.BND": [
+      2,
+      7
+    ],
+    "SEC.FSS": [
+      6,
+      8
+    ],
+    "ALG.1": [
+      3,
+      3
+    ],
+    "ALG.2": [
+      3,
+      4
+    ],
+    "ALG.3": [
+      3,
+      4
+    ],
+    "ALG.4": [
+      2,
+      3
+    ],
+    "ALG.5": [
+      1,
+      2
+    ],
+    "ADV.1": [
+      1,
+      4
+    ],
+    "ADV.2": [
+      2,
+      5
+    ],
+    "ADV.3": [
+      2,
+      5
+    ],
+    "PSD.1": [
+      2,
+      2
+    ],
+    "PSD.2": [
+      1,
+      2
+    ],
+    "PSD.3": [
+      1,
+      1
+    ],
+    "PSD.4": [
+      1,
+      1
+    ],
+    "PSD.5": [
+      1,
+      1
+    ],
+    "PSD.6": [
+      0,
+      0
+    ],
+    "PSD.7": [
+      1,
+      1
+    ],
+    "GEO.1": [
+      1,
+      2
+    ],
+    "GEO.2": [
+      1,
+      1
+    ],
+    "GEO.3": [
+      0,
+      2
+    ],
+    "GEO.4": [
+      0,
+      1
+    ]
+  },
+  "skills_now": {
+    "II.CID": [
+      4,
+      5
+    ],
+    "II.COE_T": [
+      3,
+      4
+    ],
+    "II.COE_Q": [
+      2,
+      3
+    ],
+    "II.INF": [
+      3,
+      4
+    ],
+    "CS.WIC": [
+      6,
+      7
+    ],
+    "CS.TSP": [
+      4,
+      5
+    ],
+    "CS.CTC": [
+      2,
+      2
+    ],
+    "EOI.TRA": [
+      4,
+      5
+    ],
+    "EOI.SYN": [
+      4,
+      4
+    ],
+    "SEC.BND": [
+      6,
+      7
+    ],
+    "SEC.FSS": [
+      7,
+      8
+    ],
+    "ALG.1": [
+      3,
+      3
+    ],
+    "ALG.2": [
+      4,
+      4
+    ],
+    "ALG.3": [
+      3,
+      4
+    ],
+    "ALG.4": [
+      3,
+      3
+    ],
+    "ALG.5": [
+      1,
+      2
+    ],
+    "ADV.1": [
+      3,
+      4
+    ],
+    "ADV.2": [
+      3,
+      5
+    ],
+    "ADV.3": [
+      3,
+      5
+    ],
+    "PSD.1": [
+      2,
+      2
+    ],
+    "PSD.2": [
+      2,
+      2
+    ],
+    "PSD.3": [
+      1,
+      1
+    ],
+    "PSD.4": [
+      1,
+      1
+    ],
+    "PSD.5": [
+      1,
+      1
+    ],
+    "PSD.6": [
+      1,
+      1
+    ],
+    "PSD.7": [
+      0,
+      0
+    ],
+    "GEO.1": [
+      2,
+      2
+    ],
+    "GEO.2": [
+      1,
+      1
+    ],
+    "GEO.3": [
+      0,
+      2
+    ],
+    "GEO.4": [
+      0,
+      1
+    ]
+  },
+  "points_lost": {
+    "concept": 9,
+    "misread": 4,
+    "careless": 4,
+    "time": 3
+  },
+  "worked_on": [
+    "Joining sentences: the four punctuation rules, then timed sets (now 6 of 7 right).",
+    "Exponential and quadratic functions: reading them from equations, graphs and tables.",
+    "Rewriting expressions without losing signs."
+  ],
+  "next_month": [
+    "Quadratics: vertex form, factoring, and when Desmos is faster.",
+    "Right-triangle trigonometry and circles (still gaps: 0 of 3 last test).",
+    "Two more full practice tests: Saturday 14 and 28 November."
+  ],
+  "at_home": "Keep Saturday 14 and 28 November, 9:00 to 11:30, free for full practice tests at home: phone in another room, one sitting, no pausing. That's all we need from you this month.",
+  "tutor_note": "A strong month. The punctuation work paid off within two weeks, and the Math gaps have become 'shaky', which is the step before points. Most points now go on methods not yet learned rather than on carelessness, so the plan is more teaching, not more drilling."
+}

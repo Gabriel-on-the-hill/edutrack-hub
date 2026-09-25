@@ -1,0 +1,25 @@
+{
+  "sample": true,
+  "student": "Sample student (Grade 11)",
+  "prepared": "28 Sep 2026",
+  "practice_test": "SAT Practice Test 4",
+  "test_date": "SAT, 5 Dec 2026",
+  "scores": {"total": 1180, "rw": 610, "math": 570},
+  "target": {"score": "1300–1340", "weekly_hours": 5},
+  "summary": "Reading is a solid base: meaning, structure and inference questions are mostly right. Points are leaking in two places: punctuation rules in Writing, and anything non-linear in Math (quadratics, exponentials, equivalent forms). Both are rule-based and quick to fix, which is why the target is realistic for December.",
+  "skills": {
+    "II.CID": [4,5], "II.COE_T": [3,4], "II.COE_Q": [2,3], "II.INF": [3,4],
+    "CS.WIC": [6,7], "CS.TSP": [3,4], "CS.CTC": [2,2],
+    "EOI.TRA": [3,5], "EOI.SYN": [4,5],
+    "SEC.BND": [2,7], "SEC.FSS": [6,8],
+    "ALG.1": [3,3], "ALG.2": [3,4], "ALG.3": [3,4], "ALG.4": [2,3], "ALG.5": [1,2],
+    "ADV.1": [1,4], "ADV.2": [2,5], "ADV.3": [2,5],
+    "PSD.1": [2,2], "PSD.2": [1,2], "PSD.3": [1,1], "PSD.4": [1,1], "PSD.5": [1,1], "PSD.6": [0,0], "PSD.7": [1,1],
+    "GEO.1": [1,2], "GEO.2": [1,1], "GEO.3": [0,2], "GEO.4": [0,1]
+  },
+  "fix_notes": {
+    "SEC.BND": "Five of seven missed. Learn the four sentence-joining rules (period, semicolon, colon, comma + and/but) and drill 15 items a day for two weeks.",
+    "ADV.2": "Set up correctly but lost on solving. Factor, the quadratic formula, and when to let Desmos find the intersection instead.",
+    "ADV.3": "Reads graphs well; struggles with exponential growth written as a function. Two lessons on forms and what each number means."
+  }
+}

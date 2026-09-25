@@ -156,7 +156,7 @@ function AdminInbox() {
                     <div className="flex items-center gap-2">
                       {!m.isRead && <span className="w-2 h-2 rounded-full bg-teal-500 shrink-0" />}
                       <p className={`truncate ${m.isRead ? 'font-medium text-slate-800' : 'font-bold text-slate-900'}`}>{m.name}</p>
-                      <span className="text-slate-400 text-sm truncate">&lt;{m.email}&gt;</span>
+                      {m.email && <span className="text-slate-400 text-sm truncate">&lt;{m.email}&gt;</span>}
                     </div>
                     <p className="text-sm text-slate-600 mt-1 truncate">{m.subject || 'General Inquiry'}</p>
                   </div>
@@ -166,7 +166,8 @@ function AdminInbox() {
                   <div className="mt-4 pt-4 border-t border-slate-100 space-y-3">
                     <p className="text-slate-700 whitespace-pre-wrap">{m.message}</p>
                     <div className="flex flex-wrap gap-4 text-sm">
-                      <a href={`mailto:${m.email}`} className="text-teal-600 font-semibold hover:underline" onClick={(e) => e.stopPropagation()}>Reply by email</a>
+                      {m.email && <a href={`mailto:${m.email}`} className="text-teal-600 font-semibold hover:underline" onClick={(e) => e.stopPropagation()}>Reply by email</a>}
+                      {m.phone && <a href={`https://wa.me/${m.phone.replace(/\D/g, '')}`} target="_blank" rel="noopener noreferrer" className="text-teal-600 font-semibold hover:underline" onClick={(e) => e.stopPropagation()}>WhatsApp</a>}
                       {m.phone && <a href={`tel:${m.phone}`} className="text-teal-600 font-semibold hover:underline" onClick={(e) => e.stopPropagation()}>Call {m.phone}</a>}
                     </div>
                   </div>
