@@ -98,7 +98,6 @@ export default function Footer({ minimal = false }) {
                 { name: 'FAQ', href: '/faq' },
                 { name: 'Privacy Policy', href: '/privacy' },
                 { name: 'Terms of Service', href: '/terms' },
-                { name: 'Refund Policy', href: '/refund' },
               ].map((item) => (
                 <li key={item.name}>
                   <Link href={item.href} className="hover:text-teal-400 transition-colors">{item.name}</Link>
@@ -114,7 +113,6 @@ export default function Footer({ minimal = false }) {
           <div className="flex items-center gap-6">
             <Link href="/privacy" className="hover:text-teal-400 transition-colors">Privacy</Link>
             <Link href="/terms" className="hover:text-teal-400 transition-colors">Terms</Link>
-            <Link href="/refund" className="hover:text-teal-400 transition-colors">Refunds</Link>
           </div>
         </div>
       </div>

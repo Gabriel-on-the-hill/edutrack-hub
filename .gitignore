@@ -64,3 +64,7 @@ public/uploads/
 
 # Build artifacts
 *.tgz
+
+# Local backups and handover files (never commit)
+_backup_*
+NEW_SECRET_FOR_VERCEL.txt

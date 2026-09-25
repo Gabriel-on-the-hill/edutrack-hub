@@ -3,6 +3,7 @@ import Head from 'next/head';
 import { useState, useEffect } from 'react';
 import { withAuth } from '../../hooks/useAuth';
 import AdminLayout from '../../components/admin/AdminLayout';
+import { Icons } from '../../components/ui/Icons';
 
 function AdminStudents() {
     const [students, setStudents] = useState([]);
@@ -53,7 +54,7 @@ function AdminStudents() {
                 </div>
 
                 <div className="relative">
-                    <span className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400">🔍</span>
+                    <Icons.Search className="w-4 h-4 absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" />
                     <input
                         type="text"
                         placeholder="Search students..."

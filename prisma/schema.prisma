@@ -1,6 +1,3 @@
-// EduTrack Hub - Schema for Neon (Serverless PostgreSQL)
-// Phase 1 Complete: Real data, progress tracking, attendance, audit trail
-
 generator client {
   provider = "prisma-client-js"
 }
@@ -10,84 +7,235 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-// ============================================================================
-// USER MODEL - ADMIN and STUDENT roles
-// ============================================================================
-
 model User {
-  id            String     @id @default(cuid())
-  email         String     @unique
+  id            String       @id @default(cuid())
+  email         String       @unique
   name          String
-  password      String     // bcrypt hashed
-  role          UserRole   @default(STUDENT)
+  password      String
+  role          UserRole     @default(STUDENT)
   phone         String?
-  isActive      Boolean    @default(true)
-  emailVerified Boolean    @default(false)
-  createdAt     DateTime   @default(now())
-  updatedAt     DateTime   @updatedAt
-
-  // Relations
+  isActive      Boolean      @default(true)
+  emailVerified Boolean      @default(false)
+  createdAt     DateTime     @default(now())
+  updatedAt     DateTime     @updatedAt
+  auditLogs     AuditLog[]   @relation("AuditActor")
   enrollments   Enrollment[]
   payments      Payment[]
   progress      Progress[]
-  auditLogs     AuditLog[]   @relation("AuditActor")
 
   @@index([email])
   @@index([role])
 }
 
-enum UserRole {
-  ADMIN
-  STUDENT
-}
-
-// ============================================================================
-// CLASS MODEL - Live tutoring sessions
-// ============================================================================
-
 model Class {
-  id            String      @id @default(cuid())
+  id            String       @id @default(cuid())
   title         String
   description   String?
-  subject       String      // e.g., "IGCSE Math", "SAT Reading"
-  level         ClassLevel  @default(BEGINNER)
-  
-  // Scheduling
+  subject       String
+  level         ClassLevel   @default(BEGINNER)
   scheduledTime DateTime
-  duration      Int         // in minutes
-  timezone      String      @default("Africa/Lagos")
-  
-  // Capacity
-  maxStudents   Int         @default(10)
-  
-  // Pricing (in smallest currency unit, e.g., kobo for NGN)
-  price         Int         @default(0) // 0 = free
-  currency      String      @default("NGN")
-  
-  // Meeting
-  meetUrl       String?     // Google Meet link
-  meetingId     String?     // For tracking
-  
-  // Post-class artifacts
-  recordingUrl  String?     // Link to recording after class
-  notesUrl      String?     // Link to class notes/summary
-  
-  // Status
-  status        ClassStatus @default(SCHEDULED)
-  
-  // Metadata
-  topics        String?     // JSON array stored as text
-  createdAt     DateTime    @default(now())
-  updatedAt     DateTime    @updatedAt
-
-  // Relations
-  enrollments   Enrollment[]
+  duration      Int
+  timezone      String       @default("Africa/Lagos")
+  maxStudents   Int          @default(10)
+  price         Int          @default(0)
+  currency      String       @default("NGN")
+  meetUrl       String?
+  meetingId     String?
+  recordingUrl  String?
+  notesUrl      String?
+  status        ClassStatus  @default(SCHEDULED)
+  topics        String?
+  createdAt     DateTime     @default(now())
+  updatedAt     DateTime     @updatedAt
   attendance    Attendance[]
+  enrollments   Enrollment[]
 
   @@index([subject])
   @@index([level])
   @@index([scheduledTime])
   @@index([status])
+}
+
+model Enrollment {
+  id          String           @id @default(cuid())
+  userId      String
+  classId     String
+  status      EnrollmentStatus @default(PENDING)
+  enrolledAt  DateTime         @default(now())
+  confirmedAt DateTime?
+  completedAt DateTime?
+  paymentId   String?
+  rating      Int?
+  feedback    String?
+  class       Class            @relation(fields: [classId], references: [id], onDelete: Cascade)
+  user        User             @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, classId])
+  @@index([userId])
+  @@index([classId])
+  @@index([status])
+}
+
+model Attendance {
+  id         String    @id @default(cuid())
+  classId    String
+  userId     String
+  joinedAt   DateTime  @default(now())
+  leftAt     DateTime?
+  duration   Int?
+  wasPresent Boolean   @default(true)
+  class      Class     @relation(fields: [classId], references: [id], onDelete: Cascade)
+
+  @@unique([classId, userId])
+  @@index([classId])
+  @@index([userId])
+}
+
+model Progress {
+  id               String     @id @default(cuid())
+  userId           String
+  subject          String
+  classesEnrolled  Int        @default(0)
+  classesAttended  Int        @default(0)
+  classesCompleted Int        @default(0)
+  totalMinutes     Int        @default(0)
+  currentLevel     ClassLevel @default(BEGINNER)
+  lastClassDate    DateTime?
+  streak           Int        @default(0)
+  createdAt        DateTime   @default(now())
+  updatedAt        DateTime   @updatedAt
+  user             User       @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, subject])
+  @@index([userId])
+  @@index([subject])
+}
+
+model Payment {
+  id              String        @id @default(cuid())
+  userId          String
+  amount          Int
+  currency        String        @default("NGN")
+  stripePaymentId String?       @unique
+  stripeSessionId String?
+  status          PaymentStatus @default(PENDING)
+  classId         String?
+  description     String?
+  createdAt       DateTime      @default(now())
+  paidAt          DateTime?
+  refundedAt      DateTime?
+  user            User          @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+  @@index([stripePaymentId])
+  @@index([status])
+  @@index([createdAt])
+}
+
+model Curriculum {
+  id                String       @id @default(cuid())
+  country           String
+  countryCode       String
+  jurisdictionLevel String
+  jurisdictionName  String?
+  grade             String
+  subject           String
+  status            String       @default("active")
+  confidenceScore   Float        @default(0.0)
+  sourceUrl         String?
+  sourceAuthority   String?
+  lastVerified      DateTime?
+  createdAt         DateTime     @default(now())
+  updatedAt         DateTime     @updatedAt
+  competencies      Competency[]
+
+  @@index([countryCode])
+  @@index([grade])
+  @@index([subject])
+  @@index([status])
+}
+
+model Competency {
+  id           String     @id @default(cuid())
+  curriculumId String
+  title        String
+  description  String
+  orderIndex   Int        @default(0)
+  pageRange    String?
+  confidence   Float      @default(0.0)
+  createdAt    DateTime   @default(now())
+  updatedAt    DateTime   @updatedAt
+  curriculum   Curriculum @relation(fields: [curriculumId], references: [id], onDelete: Cascade)
+
+  @@index([curriculumId])
+  @@index([orderIndex])
+}
+
+model ContactMessage {
+  id        String   @id @default(cuid())
+  name      String
+  email     String
+  phone     String?
+  subject   String?
+  message   String
+  isRead    Boolean  @default(false)
+  createdAt DateTime @default(now())
+
+  @@index([isRead])
+  @@index([createdAt])
+}
+
+model Resource {
+  id          String       @id @default(cuid())
+  title       String
+  description String?
+  content     String?
+  type        ResourceType
+  subject     String
+  level       ClassLevel   @default(BEGINNER)
+  url         String?
+  isPublished Boolean      @default(false)
+  downloads   Int          @default(0)
+  createdAt   DateTime     @default(now())
+  updatedAt   DateTime     @updatedAt
+
+  @@index([type])
+  @@index([subject])
+  @@index([isPublished])
+}
+
+model AuditLog {
+  id        String   @id @default(cuid())
+  actorId   String
+  action    String
+  entity    String
+  entityId  String
+  changes   String?
+  metadata  String?
+  createdAt DateTime @default(now())
+  actor     User     @relation("AuditActor", fields: [actorId], references: [id], onDelete: Cascade)
+
+  @@index([actorId])
+  @@index([entity])
+  @@index([action])
+  @@index([createdAt])
+}
+
+model Lead {
+  id           String   @id @default(cuid())
+  email        String   @unique
+  name         String?
+  source       String   @default("website")
+  isSubscribed Boolean  @default(true)
+  createdAt    DateTime @default(now())
+
+  @@index([email])
+  @@index([createdAt])
+}
+
+enum UserRole {
+  ADMIN
+  STUDENT
 }
 
 enum ClassLevel {
@@ -103,145 +251,14 @@ enum ClassStatus {
   CANCELLED
 }
 
-// ============================================================================
-// ENROLLMENT MODEL - Student enrolled in a class
-// ============================================================================
-
-model Enrollment {
-  id            String           @id @default(cuid())
-  
-  // Relations
-  user          User             @relation(fields: [userId], references: [id], onDelete: Cascade)
-  userId        String
-  class         Class            @relation(fields: [classId], references: [id], onDelete: Cascade)
-  classId       String
-  
-  // Status
-  status        EnrollmentStatus @default(PENDING)
-  
-  // Tracking
-  enrolledAt    DateTime         @default(now())
-  confirmedAt   DateTime?        // When payment confirmed or free class enrolled
-  completedAt   DateTime?        // When class completed
-  
-  // Payment reference
-  paymentId     String?          // Links to Payment if paid class
-
-  // Feedback (post-class)
-  rating        Int?             // 1-5 stars
-  feedback      String?          // Written feedback
-
-  @@unique([userId, classId])
-  @@index([userId])
-  @@index([classId])
-  @@index([status])
-}
-
 enum EnrollmentStatus {
-  PENDING    // Awaiting payment or confirmation
-  CONFIRMED  // Payment received, can attend
-  ATTENDED   // Actually attended the class
-  COMPLETED  // Attended + marked complete
-  MISSED     // Didn't show up
-  CANCELLED  // Student cancelled
-  REFUNDED   // Payment refunded
-}
-
-// ============================================================================
-// ATTENDANCE MODEL - Track actual class attendance
-// ============================================================================
-
-model Attendance {
-  id          String   @id @default(cuid())
-  
-  // Relations
-  classId     String
-  class       Class    @relation(fields: [classId], references: [id], onDelete: Cascade)
-  userId      String
-  
-  // Timing
-  joinedAt    DateTime @default(now())
-  leftAt      DateTime?
-  duration    Int?     // Minutes attended (calculated on leave)
-  
-  // Status
-  wasPresent  Boolean  @default(true)
-  
-  @@unique([classId, userId])
-  @@index([classId])
-  @@index([userId])
-}
-
-// ============================================================================
-// PROGRESS MODEL - Track learning progress per student
-// ============================================================================
-
-model Progress {
-  id              String   @id @default(cuid())
-  
-  // Relations
-  user            User     @relation(fields: [userId], references: [id], onDelete: Cascade)
-  userId          String
-  
-  // Subject-level progress
-  subject         String   // e.g., "IGCSE Math", "SAT Reading"
-  
-  // Metrics
-  classesEnrolled Int      @default(0)
-  classesAttended Int      @default(0)
-  classesCompleted Int     @default(0)
-  totalMinutes    Int      @default(0) // Total learning time
-  
-  // Level tracking
-  currentLevel    ClassLevel @default(BEGINNER)
-  
-  // Achievements
-  lastClassDate   DateTime?
-  streak          Int      @default(0) // Consecutive classes attended
-  
-  createdAt       DateTime @default(now())
-  updatedAt       DateTime @updatedAt
-
-  @@unique([userId, subject])
-  @@index([userId])
-  @@index([subject])
-}
-
-// ============================================================================
-// PAYMENT MODEL - Track payments via Stripe
-// ============================================================================
-
-model Payment {
-  id              String        @id @default(cuid())
-  
-  // User
-  user            User          @relation(fields: [userId], references: [id], onDelete: Cascade)
-  userId          String
-  
-  // Amount
-  amount          Int           // In smallest unit (kobo/cents)
-  currency        String        @default("NGN")
-  
-  // Stripe
-  stripePaymentId String?       @unique // Stripe PaymentIntent ID
-  stripeSessionId String?       // Stripe Checkout Session ID
-  
-  // Status
-  status          PaymentStatus @default(PENDING)
-  
-  // What they paid for
-  classId         String?       // If paying for a specific class
-  description     String?
-  
-  // Timestamps
-  createdAt       DateTime      @default(now())
-  paidAt          DateTime?
-  refundedAt      DateTime?
-
-  @@index([userId])
-  @@index([stripePaymentId])
-  @@index([status])
-  @@index([createdAt])
+  PENDING
+  CONFIRMED
+  ATTENDED
+  COMPLETED
+  MISSED
+  CANCELLED
+  REFUNDED
 }
 
 enum PaymentStatus {
@@ -251,94 +268,13 @@ enum PaymentStatus {
   REFUNDED
 }
 
-// ============================================================================
-// CONTACT MESSAGE - Contact form submissions
-// ============================================================================
-
-model ContactMessage {
-  id        String   @id @default(cuid())
-  name      String
-  email     String
-  subject   String?
-  message   String
-  isRead    Boolean  @default(false)
-  createdAt DateTime @default(now())
-
-  @@index([isRead])
-  @@index([createdAt])
-}
-
-// ============================================================================
-// RESOURCE - Free downloadable content
-// ============================================================================
-
-model Resource {
-  id          String       @id @default(cuid())
-  title       String
-  description String?
-  type        ResourceType
-  subject     String
-  level       ClassLevel   @default(BEGINNER)
-  url         String       // Link to PDF, video, etc.
-  isPublished Boolean      @default(false)
-  downloads   Int          @default(0)
-  createdAt   DateTime     @default(now())
-  updatedAt   DateTime     @updatedAt
-
-  @@index([type])
-  @@index([subject])
-  @@index([isPublished])
-}
-
 enum ResourceType {
   VIDEO
   PDF
   WORKSHEET
   ARTICLE
   GAME
-}
-
-// ============================================================================
-// AUDIT LOG - Track admin actions for accountability
-// ============================================================================
-
-model AuditLog {
-  id          String   @id @default(cuid())
-  
-  // Who
-  actor       User     @relation("AuditActor", fields: [actorId], references: [id], onDelete: Cascade)
-  actorId     String
-  
-  // What
-  action      String   // CREATE, UPDATE, DELETE, etc.
-  entity      String   // User, Class, Enrollment, etc.
-  entityId    String   // ID of affected entity
-  
-  // Details
-  changes     String?  // JSON diff of changes
-  metadata    String?  // Additional context
-  
-  // When
-  createdAt   DateTime @default(now())
-
-  @@index([actorId])
-  @@index([entity])
-  @@index([action])
-  @@index([createdAt])
-}
-
-// ============================================================================
-// LEAD MODEL - Email captures for marketing
-// ============================================================================
-
-model Lead {
-  id           String   @id @default(cuid())
-  email        String   @unique
-  name         String?
-  source       String   @default("website") // e.g., "sat-guide-popup"
-  isSubscribed Boolean  @default(true)
-  createdAt    DateTime @default(now())
-
-  @@index([email])
-  @@index([createdAt])
+  LESSON_PLAN
+  QUIZ
+  SUMMARY
 }

@@ -120,9 +120,9 @@ export default function Login() {
             {/* Stats */}
             <div className="grid grid-cols-3 gap-6">
               {[
-                { number: '94%', label: 'Success rate' },
-                { number: '4.9', label: 'Student rating' },
-                { number: '12+', label: 'Countries' },
+                { number: 'Max 8', label: 'Per class' },
+                { number: 'Live', label: 'Online' },
+                { number: '4', label: 'Learning hubs' },
               ].map((stat, i) => (
                 <div key={i} className="text-center">
                   <p className="text-3xl font-bold text-teal-400">{stat.number}</p>
@@ -132,20 +132,12 @@ export default function Login() {
             </div>
           </div>
 
-          {/* Testimonial */}
+          {/* What you get */}
           <div className="relative z-10 bg-white/10 backdrop-blur-sm rounded-2xl p-6">
-            <p className="text-white/90 mb-4">
-              "EduTrack Hub helped me go from failing to top of my class. The teachers actually care!"
+            <p className="text-white/90">
+              Live, small-group classes with recordings, notes and personalised feedback after every session —
+              all in one place.
             </p>
-            <div className="flex items-center gap-3">
-              <div className="w-10 h-10 rounded-full bg-teal-500 flex items-center justify-center text-white font-semibold">
-                CO
-              </div>
-              <div>
-                <p className="text-white font-medium">Chiamaka O.</p>
-                <p className="text-slate-400 text-sm">IGCSE Student, Lagos</p>
-              </div>
-            </div>
           </div>
         </div>
 

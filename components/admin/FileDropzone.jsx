@@ -1,7 +1,8 @@
 import { useState, useRef } from 'react';
 import { motion } from 'framer-motion';
+import { Icons } from '../ui/Icons';
 
-export default function FileDropzone({ onUploadSuccess, label = "Drop file here", accept = "*", icon = "📁" }) {
+export default function FileDropzone({ onUploadSuccess, label = "Drop file here", accept = "*", icon = null }) {
     const [isDragging, setIsDragging] = useState(false);
     const [uploading, setUploading] = useState(false);
     const [success, setSuccess] = useState(false);
@@ -86,7 +87,15 @@ export default function FileDropzone({ onUploadSuccess, label = "Drop file here"
                     className="hidden"
                 />
 
-                <div className="text-3xl mb-1">{success ? "✅" : uploading ? "⏳" : icon}</div>
+                <div className="mb-1 flex items-center justify-center text-slate-400">
+                    {success ? (
+                        <Icons.Check className="w-7 h-7 text-green-600" />
+                    ) : uploading ? (
+                        <Icons.Spinner className="w-7 h-7 text-teal-500 animate-spin" />
+                    ) : (
+                        icon || <Icons.Upload className="w-7 h-7 text-slate-400" />
+                    )}
+                </div>
 
                 <div className="text-center">
                     <p className={`text-sm font-semibold ${success ? 'text-green-600' : 'text-slate-700'}`}>
@@ -120,7 +129,7 @@ export default function FileDropzone({ onUploadSuccess, label = "Drop file here"
 
             {error && (
                 <p className="text-xs font-medium text-red-600 flex items-center gap-1">
-                    <span>⚠️</span> {error}
+                    <Icons.AlertTriangle className="w-3.5 h-3.5 shrink-0" /> {error}
                 </p>
             )}
         </div>

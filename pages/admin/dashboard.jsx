@@ -7,6 +7,7 @@ import { useState, useEffect } from 'react';
 import { useAuth, withAuth } from '../../hooks/useAuth';
 import AdminLayout from '../../components/admin/AdminLayout';
 import AnalyticsCharts from '../../components/admin/AnalyticsCharts';
+import { Icons } from '../../components/ui/Icons';
 
 // Simple currency conversion (Estimate)
 const EXCHANGE_RATE = 0.0011; // 1 NGN = 0.0011 USD (approx)
@@ -167,7 +168,7 @@ function AdminDashboard() {
             <div className="bg-white rounded-2xl shadow-sm p-6 border border-slate-100">
               <div className="flex items-center gap-4">
                 <div className="w-12 h-12 bg-blue-50 rounded-xl flex items-center justify-center">
-                  <span className="text-2xl">📚</span>
+                  <Icons.BookOpen className="w-6 h-6 text-blue-600" />
                 </div>
                 <div>
                   <p className="text-sm font-medium text-slate-500">Total Classes</p>
@@ -179,7 +180,7 @@ function AdminDashboard() {
             <div className="bg-white rounded-2xl shadow-sm p-6 border border-slate-100">
               <div className="flex items-center gap-4">
                 <div className="w-12 h-12 bg-teal-50 rounded-xl flex items-center justify-center">
-                  <span className="text-2xl">🗓️</span>
+                  <Icons.Calendar className="w-6 h-6 text-teal-600" />
                 </div>
                 <div>
                   <p className="text-sm font-medium text-slate-500">Upcoming</p>
@@ -191,7 +192,7 @@ function AdminDashboard() {
             <div className="bg-white rounded-2xl shadow-sm p-6 border border-slate-100">
               <div className="flex items-center gap-4">
                 <div className="w-12 h-12 bg-purple-50 rounded-xl flex items-center justify-center">
-                  <span className="text-2xl">💰</span>
+                  <Icons.DollarSign className="w-6 h-6 text-purple-600" />
                 </div>
                 <div>
                   <p className="text-sm font-medium text-slate-500">Total Revenue</p>
@@ -205,7 +206,7 @@ function AdminDashboard() {
             <div className="bg-white rounded-2xl shadow-sm p-6 border border-slate-100">
               <div className="flex items-center gap-4">
                 <div className="w-12 h-12 bg-amber-50 rounded-xl flex items-center justify-center">
-                  <span className="text-2xl">🎓</span>
+                  <Icons.GraduationCap className="w-6 h-6 text-amber-600" />
                 </div>
                 <div>
                   <p className="text-sm font-medium text-slate-500">Students</p>
@@ -233,7 +234,7 @@ function AdminDashboard() {
                   className="flex items-center gap-4 p-4 bg-slate-50 hover:bg-teal-50 group rounded-xl transition-all duration-200 border border-slate-100 hover:border-teal-100"
                 >
                   <div className="w-10 h-10 bg-white rounded-lg flex items-center justify-center shadow-sm group-hover:scale-110 transition-transform">
-                    <span className="text-xl">➕</span>
+                    <Icons.Plus className="w-5 h-5 text-teal-600" />
                   </div>
                   <div>
                     <span className="font-semibold text-slate-900 block group-hover:text-teal-700">New Class</span>
@@ -246,7 +247,7 @@ function AdminDashboard() {
                   className="flex items-center gap-4 p-4 bg-slate-50 hover:bg-teal-50 group rounded-xl transition-all duration-200 border border-slate-100 hover:border-teal-100"
                 >
                   <div className="w-10 h-10 bg-white rounded-lg flex items-center justify-center shadow-sm group-hover:scale-110 transition-transform">
-                    <span className="text-xl">🔍</span>
+                    <Icons.Search className="w-5 h-5 text-teal-600" />
                   </div>
                   <div>
                     <span className="font-semibold text-slate-900 block group-hover:text-teal-700">Find Student</span>

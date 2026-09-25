@@ -23,6 +23,12 @@ export default function Document() {
 
         {/* Theme color - Teal-500 brand color */}
         <meta name="theme-color" content="#14B8A6" />
+
+        {/* No-JS fallback: scroll-reveal sections start at opacity-0 and are
+            revealed by JavaScript. If JS is disabled, force them visible. */}
+        <noscript>
+          <style>{`[class*="opacity-0"]{opacity:1 !important;transform:none !important;}`}</style>
+        </noscript>
       </Head>
       <body>
         <Main />

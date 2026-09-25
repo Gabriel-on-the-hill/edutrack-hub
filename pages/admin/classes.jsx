@@ -8,6 +8,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { useAuth, withAuth } from '../../hooks/useAuth';
 import AdminLayout from '../../components/admin/AdminLayout';
 import FileDropzone from '../../components/admin/FileDropzone';
+import { Icons } from '../../components/ui/Icons';
 
 function AdminClasses() {
   const { user } = useAuth();
@@ -195,7 +196,7 @@ function AdminClasses() {
       ) : classes.length === 0 ? (
         <div className="bg-white rounded-2xl shadow-sm border border-slate-100 p-12 text-center">
           <div className="w-20 h-20 bg-slate-50 rounded-full flex items-center justify-center mx-auto mb-6">
-            <span className="text-4xl">📅</span>
+            <Icons.Calendar className="w-9 h-9 text-slate-400" />
           </div>
           <h3 className="text-xl font-bold text-slate-900 mb-2">No classes yet</h3>
           <p className="text-slate-500 mb-8 max-w-md mx-auto">
@@ -262,15 +263,17 @@ function AdminClasses() {
                           onClick={() => handleEdit(cls)}
                           className="p-2 text-blue-600 hover:bg-blue-50 rounded-lg transition-colors"
                           title="Edit"
+                          aria-label="Edit class"
                         >
-                          ✏️
+                          <Icons.Edit className="w-4 h-4" />
                         </button>
                         <button
                           onClick={() => handleDelete(cls)}
                           className="p-2 text-red-600 hover:bg-red-50 rounded-lg transition-colors"
                           title="Delete"
+                          aria-label="Delete class"
                         >
-                          🗑️
+                          <Icons.Trash className="w-4 h-4" />
                         </button>
                       </div>
                     </td>
@@ -299,15 +302,16 @@ function AdminClasses() {
                 <button
                   onClick={() => setShowForm(false)}
                   className="w-8 h-8 rounded-full bg-slate-100 hover:bg-slate-200 flex items-center justify-center text-slate-500 transition-colors"
+                  aria-label="Close"
                 >
-                  ✕
+                  <Icons.X className="w-4 h-4" />
                 </button>
               </div>
 
               <form onSubmit={handleSubmit} className="p-8 space-y-6">
                 {formError && (
                   <div className="p-4 bg-red-50 text-red-700 rounded-xl border border-red-100 flex items-center gap-2">
-                    <span>⚠️</span> {formError}
+                    <Icons.AlertTriangle className="w-4 h-4 shrink-0" /> {formError}
                   </div>
                 )}
 
@@ -430,7 +434,7 @@ function AdminClasses() {
                   <div>
                     <label className="block text-sm font-semibold text-slate-700 mb-1.5">Google Meet URL</label>
                     <div className="relative">
-                      <span className="absolute left-4 top-1/2 -translate-y-1/2 text-xl">🎥</span>
+                      <Icons.Video className="w-5 h-5 absolute left-4 top-1/2 -translate-y-1/2 text-slate-400" />
                       <input
                         type="url"
                         name="meetUrl"
@@ -443,28 +447,44 @@ function AdminClasses() {
                   </div>
 
                   {editingClass && (
-                    <div className="grid grid-cols-2 gap-5">
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+                      {/* Resources: paste a link OR upload a file */}
                       <div>
-                        <label className="block text-sm font-semibold text-slate-700 mb-1.5">Resources (PDF/Slides)</label>
+                        <label className="block text-sm font-semibold text-slate-700 mb-1.5">Resources (PDF / Slides)</label>
+                        <input
+                          type="url"
+                          name="notesUrl"
+                          value={formData.notesUrl}
+                          onChange={handleInputChange}
+                          className="w-full px-4 py-3 border border-slate-200 rounded-xl focus:ring-2 focus:ring-teal-500 focus:border-transparent transition-all outline-none mb-3"
+                          placeholder="Paste a link (Google Drive, etc.)"
+                        />
+                        <div className="relative text-center text-xs text-slate-400 mb-3">
+                          <span className="absolute inset-x-0 top-1/2 h-px bg-slate-100" />
+                          <span className="relative bg-white px-2">or upload a file</span>
+                        </div>
                         <FileDropzone
                           onUploadSuccess={(url) => setFormData(prev => ({ ...prev, notesUrl: url }))}
                           label="Drop resources here"
-                          icon="📂"
+                          icon={<Icons.Folder className="w-7 h-7 text-slate-400" />}
                         />
-                        <div className="mt-2 text-xs text-slate-400 break-all">
-                          URL: {formData.notesUrl || 'None'}
-                        </div>
                       </div>
+
+                      {/* Recording: link only (videos are hosted off-site) */}
                       <div>
                         <label className="block text-sm font-semibold text-slate-700 mb-1.5">Class Recording</label>
-                        <FileDropzone
-                          onUploadSuccess={(url) => setFormData(prev => ({ ...prev, recordingUrl: url }))}
-                          label="Drop recording here"
-                          icon="📼"
+                        <input
+                          type="url"
+                          name="recordingUrl"
+                          value={formData.recordingUrl}
+                          onChange={handleInputChange}
+                          className="w-full px-4 py-3 border border-slate-200 rounded-xl focus:ring-2 focus:ring-teal-500 focus:border-transparent transition-all outline-none"
+                          placeholder="Paste a YouTube, Vimeo or Drive link"
                         />
-                        <div className="mt-2 text-xs text-slate-400 break-all">
-                          URL: {formData.recordingUrl || 'None'}
-                        </div>
+                        <p className="mt-2 text-xs text-slate-400 leading-relaxed">
+                          Host recordings on YouTube, Vimeo or Google Drive and paste the link here.
+                          Video files can't be uploaded directly (and shouldn't be — it keeps your storage clean).
+                        </p>
                       </div>
                     </div>
                   )}

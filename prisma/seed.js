@@ -13,14 +13,19 @@ async function main() {
   // CREATE ADMIN USER
   // ============================================================================
   
-  const adminPassword = await bcrypt.hash('admin123456', 10);
-  
+  const adminEmail = process.env.ADMIN_EMAIL || 'admin@edutrackhub.com';
+  const adminPlainPassword = process.env.ADMIN_PASSWORD || 'admin123456';
+  if (!process.env.ADMIN_PASSWORD) {
+    console.warn('⚠️  No ADMIN_PASSWORD set — using the insecure default. Set ADMIN_EMAIL and ADMIN_PASSWORD in your environment before seeding a production database.');
+  }
+  const adminPassword = await bcrypt.hash(adminPlainPassword, 10);
+
   const admin = await prisma.user.upsert({
-    where: { email: 'admin@edutrackhub.com' },
+    where: { email: adminEmail },
     update: {},
     create: {
-      email: 'admin@edutrackhub.com',
-      name: 'Gabriel (Admin)',
+      email: adminEmail,
+      name: process.env.ADMIN_NAME || 'Gabriel (Admin)',
       password: adminPassword,
       role: 'ADMIN',
       isActive: true,
@@ -286,10 +291,10 @@ async function main() {
   console.log(`   Resources: ${await prisma.resource.count()}`);
   console.log('\n🎉 Database seeded successfully!');
   
-  console.log('\n📝 Test Accounts:');
-  console.log('   Admin: admin@edutrackhub.com / admin123456');
-  console.log('   Student: student@example.com / student123456');
-  console.log('   Student: jane@example.com / student123456');
+  console.log('\n📝 Accounts created:');
+  console.log(`   Admin: ${adminEmail}`);
+  console.log('   Students: student@example.com, jane@example.com');
+  console.log('   (Passwords were set from environment variables or the local dev defaults — not printed here.)');
 }
 
 main()

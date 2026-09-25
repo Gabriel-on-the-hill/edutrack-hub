@@ -46,6 +46,7 @@ export default async function handler(req, res) {
       data: {
         name,
         email,
+        phone: phone || null,
         subject: subjectLine,
         message,
       },

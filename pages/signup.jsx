@@ -104,18 +104,17 @@ export default function Signup() {
   };
 
   const benefits = [
-    'Try your first class completely free',
+    'Book a free consultation to start',
     'Access to class recordings anytime',
     'Small groups (max 8 students)',
     'Direct WhatsApp support',
-    'No commitment required',
   ];
 
   return (
     <>
       <Head>
-        <title>Sign Up Free - EduTrack Hub</title>
-        <meta name="description" content="Create your free EduTrack Hub account and try your first class free. No credit card required." />
+        <title>Sign Up - EduTrack Hub</title>
+        <meta name="description" content="Create your EduTrack Hub account and book a free consultation to get started. No credit card required." />
         <link rel="icon" href="/logo.png" type="image/png" />
       </Head>
 
@@ -150,7 +149,7 @@ export default function Signup() {
               <span className="text-amber-300">real results</span>
             </h1>
             <p className="text-teal-100 text-lg mb-8">
-              Join students from 12+ countries who've transformed their academic performance with live, interactive tutoring.
+              Create your account to book live, interactive small-group classes and keep all your materials in one place.
             </p>
 
             {/* Benefits */}
@@ -166,18 +165,16 @@ export default function Signup() {
             </div>
           </div>
 
-          {/* Trust Badge */}
+          {/* Founding cohort */}
           <div className="relative z-10 flex items-center gap-4">
             <div className="flex -space-x-3">
-              {['CO', 'JK', 'SM', 'AO'].map((initials, i) => (
-                <div key={i} className="w-10 h-10 rounded-full bg-white/20 backdrop-blur-sm flex items-center justify-center text-white text-sm font-medium ring-2 ring-teal-600">
-                  {initials}
-                </div>
+              {['bg-amber-300', 'bg-teal-300', 'bg-white/30'].map((c, i) => (
+                <div key={i} className={`w-10 h-10 rounded-full ${c} ring-2 ring-teal-600`} />
               ))}
             </div>
             <div>
-              <p className="text-white font-medium">Join 500+ students</p>
-              <p className="text-teal-200 text-sm">who've achieved their goals</p>
+              <p className="text-white font-medium">Be one of our first students</p>
+              <p className="text-teal-200 text-sm">Founding cohort now open</p>
             </div>
           </div>
         </div>

@@ -5,8 +5,8 @@ import Head from 'next/head';
 
 const defaultMeta = {
     title: 'EduTrack Hub',
-    description: 'Live online tutoring for IGCSE, A-Levels, SAT, IB, and AP. Small group classes with expert tutors. Students in 12+ countries. Try your first class free.',
-    image: '/og-image.png',
+    description: 'Live online tutoring for IGCSE, A-Levels, SAT, IB, and AP. Small group classes (max 8 students) with recordings and notes after every session. Book a free consultation to start.',
+    image: '/brand-board.png',
     url: 'https://edutrackhub.com',
     type: 'website',
 };

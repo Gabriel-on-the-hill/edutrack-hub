@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { Icons } from './ui/Icons';
 
 export default function FormInput({
   label,
@@ -59,7 +60,7 @@ export default function FormInput({
       />
       {error && (
         <p className="mt-1 text-sm text-red-500 flex items-center gap-1">
-          <span>⚠</span>
+          <Icons.AlertTriangle className="w-3.5 h-3.5 shrink-0" />
           {error}
         </p>
       )}

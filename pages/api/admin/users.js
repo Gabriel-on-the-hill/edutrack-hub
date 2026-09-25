@@ -1,6 +1,6 @@
 
 import prisma from '../../../lib/db';
-import { getCurrentUser } from '../../../lib/auth';
+import { requireRole } from '../../../lib/auth';
 
 export default async function handler(req, res) {
     if (req.method !== 'GET') {

@@ -188,7 +188,7 @@ export function withAuth(Component, options = {}) {
         if (!isAuthenticated) {
           router.replace(redirectTo);
         } else if (requireAdmin && !isAdmin()) {
-          router.replace('/dashboard');
+          router.replace('/dashboard/student');
         }
       }
     }, [loading, isAuthenticated, isAdmin, router]);

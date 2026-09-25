@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;800&family=Inter:wght@400;500;600;700&display=swap');
+/* Fonts are loaded once in pages/_document.jsx (Plus Jakarta Sans). */
 
 @tailwind base;
 @tailwind components;
@@ -73,7 +73,7 @@ a {
 }
 
 a:visited {
-  @apply text-secondary-500;
+  @apply text-primary-600;
 }
 
 /* Form Styles */
@@ -140,5 +140,17 @@ label {
 /* Smooth Transitions */
 * {
   @apply transition-colors duration-200;
+}
+
+/* Respect users who prefer reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
 }
 

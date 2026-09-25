@@ -117,11 +117,7 @@ export default function Contact() {
     },
     {
       q: "How much does it cost?",
-      a: "Your first trial class is completely FREE! After that, we'll discuss pricing options that work for your situation. No pressure, no hidden fees."
-    },
-    {
-      q: "Can I get a refund?",
-      a: "Yes, if you're not satisfied after your first paid class, we'll refund you in full. No questions asked."
+      a: "We start with a free consultation to understand your goals. After that, we'll discuss pricing options that work for your situation. No pressure, no hidden fees."
     },
     {
       q: "What if I miss a class?",

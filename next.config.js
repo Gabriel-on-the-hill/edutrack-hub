@@ -23,20 +23,19 @@ const nextConfig = {
   // REACT & OPTIMIZATION
   // ========================================================================
   reactStrictMode: true,
-  swcMinify: true,
   productionBrowserSourceMaps: false,
 
   // ========================================================================
   // IMAGE OPTIMIZATION - SECURITY: Restrict to trusted domains only
   // ========================================================================
   images: {
-    // Production image domains only
-    domains: [
-      'localhost',
-      'edutrackhub.com',
-      'www.edutrackhub.com',
-      'cdn.edutrackhub.com',
-      'res.cloudinary.com',
+    // Production image sources only (replaces the deprecated `domains` option)
+    remotePatterns: [
+      { protocol: 'http', hostname: 'localhost' },
+      { protocol: 'https', hostname: 'edutrackhub.com' },
+      { protocol: 'https', hostname: 'www.edutrackhub.com' },
+      { protocol: 'https', hostname: 'cdn.edutrackhub.com' },
+      { protocol: 'https', hostname: 'res.cloudinary.com' },
     ],
 
     // Image optimization
@@ -130,19 +129,6 @@ const nextConfig = {
   // ========================================================================
   compress: true,
 
-  // ========================================================================
-  // TYPESCRIPT
-  // ========================================================================
-  typescript: {
-    tsconfigPath: './tsconfig.json',
-  },
-
-  // ========================================================================
-  // ESLINT
-  // ========================================================================
-  eslint: {
-    dirs: ['pages', 'components', 'lib'],
-  },
 };
 
 // ============================================================================

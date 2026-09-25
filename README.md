@@ -127,12 +127,18 @@ Visit [http://localhost:3000](http://localhost:3000)
 
 ---
 
-## 👤 Test Accounts
+## 👤 Seed Accounts
 
-| Role | Email | Password |
-|------|-------|----------|
-| Admin | admin@edutrackhub.com | admin123456 |
-| Student | student@example.com | student123456 |
+The seed script (`npm run db:seed`) creates an admin and sample student accounts.
+
+**Set credentials via environment variables before seeding any non-local database:**
+
+```
+ADMIN_EMAIL="you@example.com"
+ADMIN_PASSWORD="<a strong password>"
+```
+
+If these are not set, the seed falls back to insecure development defaults intended for local use only. **Never seed a production database with the defaults, and never commit real credentials to this file.**
 
 ---
 

@@ -108,6 +108,11 @@ export default function Navigation({ transparent = false }) {
                 </Link>
               </div>
             </div>
+            {user && (
+              <Link href="/resources" className="text-slate-600 hover:text-teal-600 transition-colors font-medium">
+                Resources
+              </Link>
+            )}
             <Link href="/about" className="text-slate-600 hover:text-teal-600 transition-colors font-medium">
               About
             </Link>
@@ -116,6 +121,9 @@ export default function Navigation({ transparent = false }) {
             </Link>
             <Link href="/blog" className="text-slate-600 hover:text-teal-600 transition-colors font-medium">
               Blog
+            </Link>
+            <Link href="/admin/curriculum" className="text-slate-600 hover:text-teal-600 transition-colors font-medium">
+              Curricula
             </Link>
           </div>
 
@@ -153,7 +161,7 @@ export default function Navigation({ transparent = false }) {
                   href="/signup"
                   className="inline-flex items-center gap-2 bg-gradient-to-r from-amber-500 to-amber-600 text-white px-6 py-2.5 rounded-full font-semibold shadow-lg shadow-amber-500/25 hover:shadow-amber-500/40 hover:scale-105 transition-all duration-300"
                 >
-                  Start Free
+                  Get Started
                   <Icons.ArrowRight className="w-4 h-4" />
                 </Link>
               </>
@@ -206,6 +214,11 @@ export default function Navigation({ transparent = false }) {
                 <Link href="/hubs/partner" className="block text-sm text-slate-600 py-1">Partner (Parents)</Link>
               </div>
             </details>
+            {user && (
+              <Link href="/resources" className="block text-slate-700 hover:text-teal-600 font-medium py-2">
+                Resources
+              </Link>
+            )}
             <Link href="/about" className="block text-slate-700 hover:text-teal-600 font-medium py-2">
               About
             </Link>
@@ -235,7 +248,7 @@ export default function Navigation({ transparent = false }) {
                   href="/signup"
                   className="block text-center bg-gradient-to-r from-amber-500 to-amber-600 text-white px-6 py-3 rounded-full font-semibold mt-4"
                 >
-                  Start Free Trial
+                  Get Started
                 </Link>
               </>
             )}

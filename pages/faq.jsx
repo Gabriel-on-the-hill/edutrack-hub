@@ -68,10 +68,6 @@ const faqs = [
                 q: 'What payment methods do you accept?',
                 a: 'We accept all major credit/debit cards through our secure payment processor, Stripe. Payment is made through our website.',
             },
-            {
-                q: 'Can I get a refund?',
-                a: 'Yes! Cancel 24+ hours before class for a full refund. See our detailed refund policy for more information.',
-            },
         ],
     },
     {

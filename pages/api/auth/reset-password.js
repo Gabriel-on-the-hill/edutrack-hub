@@ -4,9 +4,8 @@
 import { z } from 'zod';
 import jwt from 'jsonwebtoken';
 import prisma from '../../../lib/db';
-import { hashPassword } from '../../../lib/auth';
+import { hashPassword, getJwtSecret } from '../../../lib/auth';
 
-const JWT_SECRET = process.env.JWT_SECRET;
 
 const schema = z.object({
     token: z.string().min(1, 'Reset token is required'),
@@ -33,7 +32,7 @@ export default async function handler(req, res) {
         // Verify token
         let decoded;
         try {
-            decoded = jwt.verify(token, JWT_SECRET);
+            decoded = jwt.verify(token, getJwtSecret());
         } catch (error) {
             if (error.name === 'TokenExpiredError') {
                 return res.status(400).json({

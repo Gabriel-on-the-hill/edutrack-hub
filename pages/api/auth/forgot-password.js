@@ -6,8 +6,8 @@ import jwt from 'jsonwebtoken';
 import prisma from '../../../lib/db';
 import { sendEmail, passwordResetTemplate } from '../../../lib/email';
 import { applyRateLimit } from '../../../lib/rate-limit';
+import { getJwtSecret } from '../../../lib/auth';
 
-const JWT_SECRET = process.env.JWT_SECRET;
 const APP_URL = process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:3000';
 
 const schema = z.object({
@@ -54,7 +54,7 @@ export default async function handler(req, res) {
         // Generate reset token (expires in 1 hour)
         const resetToken = jwt.sign(
             { userId: user.id, email: user.email, type: 'password_reset' },
-            JWT_SECRET,
+            getJwtSecret(),
             { expiresIn: '1h' }
         );
 

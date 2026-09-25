@@ -55,10 +55,6 @@ export default function About() {
                 <link rel="icon" href="/logo.png" type="image/png" />
             </Head>
 
-            <style jsx global>{`
-        * { font-family: 'Plus Jakarta Sans', system-ui, sans-serif; }
-      `}</style>
-
             <div className="min-h-screen bg-white">
                 <Navigation />
 
@@ -82,26 +78,26 @@ export default function About() {
                     <div className="max-w-7xl mx-auto px-5 lg:px-8">
                         <div className="grid lg:grid-cols-2 gap-16 items-center">
                             {/* Image */}
-                            <div className="relative">
+                            <div className="relative max-w-sm mx-auto lg:mx-0">
                                 <div className="aspect-[4/5] relative bg-gradient-to-br from-teal-500 to-teal-600 rounded-3xl overflow-hidden shadow-2xl">
                                     <Image
                                         src="/gabriel-portrait.jpg"
                                         alt="Gabriel - Founder & Lead Tutor"
                                         fill
                                         className="object-cover object-top"
-                                        sizes="(max-width: 768px) 100vw, 50vw"
+                                        sizes="(max-width: 1024px) 90vw, 384px"
                                         priority
                                     />
                                 </div>
                                 {/* Floating card */}
-                                <div className="absolute -bottom-6 -right-6 bg-white rounded-2xl shadow-xl p-5">
+                                <div className="absolute bottom-3 right-3 sm:-bottom-6 sm:-right-6 bg-white rounded-2xl shadow-xl p-4 sm:p-5">
                                     <div className="flex items-center gap-3">
-                                        <div className="w-12 h-12 rounded-full bg-teal-100 flex items-center justify-center">
+                                        <div className="w-12 h-12 rounded-full bg-teal-100 flex items-center justify-center shrink-0">
                                             <Icons.GraduationCap className="w-6 h-6 text-teal-600" />
                                         </div>
                                         <div>
-                                            <p className="font-bold text-slate-900">B.Eng Mechanical Engineering</p>
-                                            <p className="text-sm text-slate-500">5+ Years Teaching Experience</p>
+                                            <p className="font-bold text-slate-900">Lead Tutor</p>
+                                            <p className="text-sm text-slate-500">EduTrack Hub</p>
                                         </div>
                                     </div>
                                 </div>
@@ -162,8 +158,8 @@ export default function About() {
                                 },
                                 {
                                     icon: Icons.Globe,
-                                    title: 'Global Community',
-                                    description: 'Students from Lagos to London learn together, bringing diverse perspectives to every class.',
+                                    title: 'Learn From Anywhere',
+                                    description: 'Classes are fully online, so you can join from anywhere in the world — all you need is an internet connection.',
                                 },
                             ].map((value, i) => (
                                 <div key={i} className="bg-white rounded-2xl p-8 shadow-sm border border-slate-100">
@@ -183,10 +179,10 @@ export default function About() {
                     <div className="max-w-7xl mx-auto px-5 lg:px-8">
                         <div className="grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
                             {[
-                                { number: '200+', label: 'Students Taught' },
-                                { number: '12+', label: 'Countries' },
-                                { number: '94%', label: 'Success Rate' },
-                                { number: '4.9', label: 'Average Rating' },
+                                { number: 'Max 8', label: 'Students per class' },
+                                { number: '4', label: 'Learning hubs' },
+                                { number: 'Live', label: 'Online classes' },
+                                { number: '100%', label: 'Sessions recorded' },
                             ].map((stat, i) => (
                                 <div key={i}>
                                     <p className="text-4xl lg:text-5xl font-bold text-teal-600">{stat.number}</p>
@@ -204,7 +200,7 @@ export default function About() {
                             Ready to start your learning journey?
                         </h2>
                         <p className="text-xl text-slate-300 mb-10">
-                            Join students around the world who've transformed their relationship with learning.
+                            Learn live with a tutor who builds real understanding, not just exam tricks.
                         </p>
                         <div className="flex flex-col sm:flex-row gap-4 justify-center">
                             <Link

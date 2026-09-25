@@ -1,5 +1,6 @@
 import { motion } from 'framer-motion';
 import { useState } from 'react';
+import { Icons } from './ui/Icons';
 
 export default function AnimatedInput({
   label,
@@ -66,7 +67,7 @@ export default function AnimatedInput({
           animate={{ opacity: 1, y: 0 }}
           className="mt-2 text-sm text-red-500 flex items-center gap-1"
         >
-          <span>⚠</span>
+          <Icons.AlertTriangle className="w-3.5 h-3.5 shrink-0" />
           {error}
         </motion.p>
       )}

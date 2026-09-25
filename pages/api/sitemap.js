@@ -16,7 +16,6 @@ export default async function handler(req, res) {
         { url: '/signup', priority: '0.6', changefreq: 'monthly' },
         { url: '/privacy', priority: '0.3', changefreq: 'yearly' },
         { url: '/terms', priority: '0.3', changefreq: 'yearly' },
-        { url: '/refund', priority: '0.3', changefreq: 'yearly' },
     ];
 
     // Dynamic class pages

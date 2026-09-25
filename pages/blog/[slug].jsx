@@ -28,7 +28,7 @@ export default function BlogPost({ source, meta }) {
                 <meta property="og:url" content={postUrl} />
                 <meta property="og:title" content={meta.title} />
                 <meta property="og:description" content={meta.description} />
-                <meta property="og:image" content={meta.image || `${siteUrl}/blog-placeholder.jpg`} />
+                <meta property="og:image" content={meta.image || `${siteUrl}/brand-board.png`} />
                 <meta property="article:published_time" content={meta.date} />
                 <meta property="article:author" content={meta.author} />
 
@@ -37,7 +37,7 @@ export default function BlogPost({ source, meta }) {
                 <meta name="twitter:url" content={postUrl} />
                 <meta name="twitter:title" content={meta.title} />
                 <meta name="twitter:description" content={meta.description} />
-                <meta name="twitter:image" content={meta.image || `${siteUrl}/blog-placeholder.jpg`} />
+                <meta name="twitter:image" content={meta.image || `${siteUrl}/brand-board.png`} />
             </Head>
             <Navbar />
             <div className="min-h-screen bg-slate-50 pt-32 pb-20">

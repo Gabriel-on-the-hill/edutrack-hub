@@ -17,6 +17,58 @@ import { getAllPosts } from '@/lib/mdx';
 import Link from 'next/link';
 
 // ═══════════════════════════════════════════════════════════════════════════════
+// INTRO VIDEO
+// Host the intro video on YouTube or Vimeo (free, and it never touches Vercel
+// storage), then paste the EMBED url below. Leave empty to show "coming soon".
+//   YouTube embed:  https://www.youtube.com/embed/VIDEO_ID
+//   Vimeo embed:    https://player.vimeo.com/video/VIDEO_ID
+// ═══════════════════════════════════════════════════════════════════════════════
+
+const INTRO_VIDEO_URL = '';
+
+const VideoModal = ({ open, onClose, url }) => {
+  useEffect(() => {
+    if (!open) return;
+    const onKey = (e) => e.key === 'Escape' && onClose();
+    document.addEventListener('keydown', onKey);
+    document.body.style.overflow = 'hidden';
+    return () => {
+      document.removeEventListener('keydown', onKey);
+      document.body.style.overflow = '';
+    };
+  }, [open, onClose]);
+
+  if (!open) return null;
+
+  return (
+    <div
+      className="fixed inset-0 z-[60] flex items-center justify-center bg-slate-900/80 backdrop-blur-sm p-4"
+      onClick={onClose}
+      role="dialog"
+      aria-modal="true"
+      aria-label="Intro video"
+    >
+      <div className="relative w-full max-w-4xl aspect-video bg-black rounded-2xl overflow-hidden shadow-2xl" onClick={(e) => e.stopPropagation()}>
+        <button
+          onClick={onClose}
+          aria-label="Close video"
+          className="absolute top-3 right-3 z-10 w-9 h-9 rounded-full bg-white/90 text-slate-800 flex items-center justify-center hover:bg-white transition-colors"
+        >
+          ✕
+        </button>
+        <iframe
+          src={url}
+          title="Intro video"
+          className="w-full h-full"
+          allow="autoplay; encrypted-media; picture-in-picture; fullscreen"
+          allowFullScreen
+        />
+      </div>
+    </div>
+  );
+};
+
+// ═══════════════════════════════════════════════════════════════════════════════
 // ANIMATION UTILITIES
 // ═══════════════════════════════════════════════════════════════════════════════
 
@@ -54,9 +106,12 @@ const useInView = (threshold = 0.1) => {
 // Hero Section
 const Hero = () => {
   const [ref, isInView] = useInView();
+  const [videoOpen, setVideoOpen] = useState(false);
+  const hasVideo = Boolean(INTRO_VIDEO_URL);
 
   return (
     <section className="relative min-h-screen flex items-center pt-24 pb-16 overflow-hidden">
+      <VideoModal open={videoOpen} onClose={() => setVideoOpen(false)} url={INTRO_VIDEO_URL} />
       {/* Background Elements */}
       <div className="absolute inset-0 -z-10">
         <div className="absolute top-0 right-0 w-[800px] h-[800px] -translate-y-1/4 translate-x-1/4">
@@ -112,45 +167,56 @@ const Hero = () => {
 
             {/* Subheadline */}
             <p className="text-xl text-slate-600 leading-relaxed max-w-xl">
-              From elementary foundations to professional mastery. Join a hub built to help you crush your goals, fix foundational gaps, and unleash your potential.
+              From early foundations to advanced, exam-level work. Live, small-group tuition that closes gaps, builds genuine understanding, and helps you reach your goals.
             </p>
 
             {/* CTA Group */}
             <div className="flex flex-col sm:flex-row gap-4">
-              <a
+              <Link
                 href="/classes"
                 className="group inline-flex items-center justify-center gap-3 bg-gradient-to-r from-amber-500 to-amber-600 text-white px-8 py-4 rounded-full font-semibold text-lg shadow-xl shadow-amber-500/25 hover:shadow-amber-500/40 hover:scale-105 transition-all duration-300"
               >
                 Find Your Class
                 <Icons.ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
-              </a>
-              <a
-                href="#how-it-works"
-                className="inline-flex items-center justify-center gap-2 text-slate-700 hover:text-teal-600 px-6 py-4 font-semibold transition-colors"
-              >
-                <span className="w-10 h-10 rounded-full bg-slate-100 flex items-center justify-center group-hover:bg-teal-50 transition-colors">
-                  <Icons.Play className="w-4 h-4 ml-0.5" />
-                </span>
-                See Gabriel in Action
-              </a>
+              </Link>
+              {hasVideo ? (
+                <button
+                  type="button"
+                  onClick={() => setVideoOpen(true)}
+                  className="group inline-flex items-center justify-center gap-2 text-slate-700 hover:text-teal-600 px-6 py-4 font-semibold transition-colors"
+                >
+                  <span className="w-10 h-10 rounded-full bg-slate-100 flex items-center justify-center group-hover:bg-teal-50 transition-colors">
+                    <Icons.Play className="w-4 h-4 ml-0.5" />
+                  </span>
+                  Watch a quick intro
+                </button>
+              ) : (
+                <a
+                  href="#how-it-works"
+                  className="group inline-flex items-center justify-center gap-2 text-slate-700 hover:text-teal-600 px-6 py-4 font-semibold transition-colors"
+                >
+                  <span className="w-10 h-10 rounded-full bg-slate-100 flex items-center justify-center group-hover:bg-teal-50 transition-colors">
+                    <Icons.ArrowRight className="w-4 h-4" />
+                  </span>
+                  See how it works
+                </a>
+              )}
             </div>
 
-            {/* Trust Indicators */}
+            {/* Trust Indicators — honest, founding-stage signals (no unverified stats) */}
             <div className="flex flex-wrap items-center gap-6 pt-4 text-sm text-slate-500">
               <div className="flex items-center gap-2">
                 <div className="flex -space-x-2">
-                  {['🇳🇬', '🇬🇧', '🇦🇪', '🇺🇸', '🇨🇦'].map((flag, i) => (
-                    <span key={i} className="w-7 h-7 rounded-full bg-slate-100 flex items-center justify-center text-sm ring-2 ring-white">
-                      {flag}
-                    </span>
+                  {['bg-teal-200', 'bg-amber-200', 'bg-slate-300'].map((c, i) => (
+                    <span key={i} className={`w-7 h-7 rounded-full ${c} ring-2 ring-white`} />
                   ))}
                 </div>
-                <span>Students from 12+ countries</span>
+                <span>Live online classes, worldwide</span>
               </div>
-              <div className="flex items-center gap-1">
-                <Icons.Star className="w-4 h-4 text-amber-400" />
-                <span className="font-semibold text-slate-700">4.9/5</span>
-                <span>Average Rating</span>
+              <div className="flex items-center gap-1.5">
+                <Icons.Users className="w-4 h-4 text-teal-500" />
+                <span className="font-semibold text-slate-700">Small groups</span>
+                <span>· max 8 students</span>
               </div>
             </div>
           </div>
@@ -159,21 +225,34 @@ const Hero = () => {
           <div className={`relative transition-all duration-1000 delay-300 ${isInView ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
             {/* Main Card */}
             <div className="relative bg-white rounded-3xl shadow-2xl shadow-slate-900/10 p-6 lg:p-8">
-              {/* Video Preview Mockup */}
+              {/* Video Preview */}
               <div className="relative aspect-video bg-gradient-to-br from-slate-800 to-slate-900 rounded-2xl overflow-hidden">
-                {/* Decorative elements simulating a class */}
                 <div className="absolute inset-0 flex items-center justify-center">
-                  <div className="text-center space-y-4">
-                    <div className="w-20 h-20 mx-auto rounded-full bg-gradient-to-br from-teal-400 to-teal-500 flex items-center justify-center shadow-lg cursor-pointer hover:scale-110 transition-transform">
-                      <Icons.Play className="w-8 h-8 text-white ml-1" />
+                  {hasVideo ? (
+                    <button
+                      type="button"
+                      onClick={() => setVideoOpen(true)}
+                      className="text-center space-y-4 group"
+                      aria-label="Play intro video"
+                    >
+                      <div className="w-20 h-20 mx-auto rounded-full bg-gradient-to-br from-teal-400 to-teal-500 flex items-center justify-center shadow-lg group-hover:scale-110 transition-transform">
+                        <Icons.Play className="w-8 h-8 text-white ml-1" />
+                      </div>
+                      <p className="text-white/80 text-sm font-medium">Watch a quick intro</p>
+                    </button>
+                  ) : (
+                    <div className="text-center space-y-4">
+                      <div className="w-20 h-20 mx-auto rounded-full bg-white/10 flex items-center justify-center">
+                        <Icons.Play className="w-8 h-8 text-white/60 ml-1" />
+                      </div>
+                      <p className="text-white/60 text-sm font-medium">Intro video coming soon</p>
                     </div>
-                    <p className="text-white/80 text-sm font-medium">Preview a Live Session</p>
-                  </div>
+                  )}
                 </div>
-                {/* Live indicator */}
-                <div className="absolute top-4 left-4 flex items-center gap-2 bg-red-500/90 backdrop-blur-sm text-white px-3 py-1.5 rounded-full text-xs font-semibold">
-                  <span className="w-2 h-2 bg-white rounded-full animate-pulse"></span>
-                  LIVE RECORDING
+                {/* Label */}
+                <div className="absolute top-4 left-4 flex items-center gap-2 bg-teal-500/90 backdrop-blur-sm text-white px-3 py-1.5 rounded-full text-xs font-semibold">
+                  <span className="w-2 h-2 bg-white rounded-full"></span>
+                  PREVIEW
                 </div>
               </div>
 
@@ -198,15 +277,15 @@ const Hero = () => {
               </div>
             </div>
 
-            {/* Floating Elements */}
+            {/* Floating Elements — factual feature highlights */}
             <div className="absolute -top-6 -right-6 bg-white rounded-2xl shadow-xl p-4 animate-float">
               <div className="flex items-center gap-3">
-                <div className="w-12 h-12 rounded-full bg-green-100 flex items-center justify-center">
-                  <Icons.TrendingUp className="w-6 h-6 text-green-600" />
+                <div className="w-12 h-12 rounded-full bg-teal-100 flex items-center justify-center">
+                  <Icons.Users className="w-6 h-6 text-teal-600" />
                 </div>
                 <div>
-                  <p className="text-2xl font-bold text-slate-900">94%</p>
-                  <p className="text-xs text-slate-500">Success Rate</p>
+                  <p className="text-2xl font-bold text-slate-900">Max 8</p>
+                  <p className="text-xs text-slate-500">Students per class</p>
                 </div>
               </div>
             </div>
@@ -214,11 +293,11 @@ const Hero = () => {
             <div className="absolute -bottom-4 -left-4 bg-white rounded-2xl shadow-xl p-4 animate-float-delayed">
               <div className="flex items-center gap-3">
                 <div className="w-10 h-10 rounded-full bg-amber-100 flex items-center justify-center">
-                  <Icons.Star className="w-5 h-5 text-amber-500" />
+                  <Icons.Check className="w-5 h-5 text-amber-500" />
                 </div>
                 <div>
-                  <p className="text-sm font-semibold text-slate-900">"Finally, I understand math!"</p>
-                  <p className="text-xs text-slate-500">— Student Review</p>
+                  <p className="text-sm font-semibold text-slate-900">Recordings & notes</p>
+                  <p className="text-xs text-slate-500">after every class</p>
                 </div>
               </div>
             </div>
@@ -234,22 +313,10 @@ const ForStudentsWho = () => {
   const [ref, isInView] = useInView();
 
   const struggles = [
-    {
-      text: "feel like you're learning but can't apply the concepts practically",
-      emoji: "😰"
-    },
-    {
-      text: "hit a plateau in your professional or academic growth",
-      emoji: "😶"
-    },
-    {
-      text: "wish there was a clear roadmap from foundation to mastery",
-      emoji: "🤐"
-    },
-    {
-      text: "believe you've reached your limit (spoiler: you're just getting started)",
-      emoji: "😔"
-    }
+    "You feel like you're learning, but can't apply the concepts when it counts.",
+    "You've hit a plateau in your academic or professional progress.",
+    "You want a clear path from the fundamentals through to mastery.",
+    "You think you've reached your limit — when you've barely started.",
   ];
 
   return (
@@ -261,14 +328,14 @@ const ForStudentsWho = () => {
           </h2>
 
           <div className="mt-12 space-y-4">
-            {struggles.map((item, i) => (
+            {struggles.map((text, i) => (
               <div
                 key={i}
-                className={`bg-white rounded-2xl px-6 py-5 shadow-sm border border-slate-100 text-left flex items-center gap-4 transition-all duration-500 hover:shadow-md hover:border-teal-100 hover:-translate-y-0.5`}
+                className={`bg-white rounded-2xl px-6 py-5 shadow-sm border border-slate-100 text-left flex items-start gap-4 transition-all duration-500 hover:shadow-md hover:border-teal-100 hover:-translate-y-0.5`}
                 style={{ transitionDelay: `${i * 100}ms` }}
               >
-                <span className="text-2xl">{item.emoji}</span>
-                <p className="text-lg text-slate-700">{item.text}</p>
+                <span className="mt-2 w-2 h-2 rounded-full bg-teal-500 shrink-0" />
+                <p className="text-lg text-slate-700">{text}</p>
               </div>
             ))}
           </div>
@@ -408,7 +475,7 @@ const LearningHubs = () => {
         <div ref={ref} className={`text-center mb-16 transition-all duration-1000 ${isInView ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
           <p className="text-teal-600 font-semibold mb-3">Choose Your Path</p>
           <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-slate-900">
-            A Hub built to help you crush your goals
+            A pathway for every stage of learning
           </h2>
         </div>
 
@@ -445,7 +512,7 @@ const Programs = () => {
 
   const programs = [
     { name: "IGCSE", description: "Cambridge International", subjects: ["Mathematics (0580)", "Physics (0625)", "Chemistry", "Add Maths"] },
-    { name: "SAT Prep", description: "Score 1500+ Guaranteed", subjects: ["Math (No Calc)", "Math (Calc)", "Reading Strategy", "Writing & Language"] },
+    { name: "SAT Prep", description: "Digital SAT Strategy", subjects: ["Math (Module 1)", "Math (Module 2)", "Reading Strategy", "Writing & Language"] },
     { name: "A-Levels", description: "Advanced Mastery", subjects: ["Pure Math 1-3", "Mechanics", "Probability & Stats", "Physics"] },
     { name: "IB Diploma", description: "Standard & Higher Level", subjects: ["Math AA/AI", "Physics HL", "Chemistry HL"] },
     { name: "AP", description: "College Credit", subjects: ["Calculus AB/BC", "Physics C", "Statistics"] },
@@ -489,79 +556,74 @@ const Programs = () => {
         </div>
 
         <div className={`mt-16 text-center transition-all duration-1000 delay-300 ${isInView ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
-          <a
+          <Link
             href="/classes"
             className="inline-flex items-center gap-2 bg-teal-500 hover:bg-teal-600 text-white px-8 py-3 rounded-full font-semibold transition-colors"
           >
             Explore All Classes
             <Icons.ArrowRight className="w-5 h-5" />
-          </a>
+          </Link>
         </div>
       </div>
     </section>
   );
 };
 
-// Testimonials/Transformation Stories
-const Testimonials = () => {
+// Our Approach — what students can expect (honest, founding-stage; no invented stats)
+const OurApproach = () => {
   const [ref, isInView] = useInView();
 
-  const stories = [
+  const pillars = [
     {
-      quote: "Gabriel explains things in a way my school teachers never did. I jumped from a C to an A in Physics in just 3 months.",
-      name: "Chiamaka O.",
-      location: "Lagos",
-      detail: "IGCSE Physics",
-      image: "CO"
+      icon: Icons.Users,
+      title: "Live, small-group classes",
+      description: "A maximum of 8 students per session, so every question gets answered and no one hides at the back.",
+      color: "bg-teal-50 text-teal-700"
     },
     {
-      quote: "The SAT Math strategies were a game changer. I stopped running out of time and my score went up by 150 points.",
-      name: "Tariq A.",
-      location: "Dubai",
-      detail: "SAT Math",
-      image: "TA"
+      icon: Icons.TrendingUp,
+      title: "Strategy over memorisation",
+      description: "We teach the methods and exam tactics that turn hard, unfamiliar problems into routine ones.",
+      color: "bg-blue-50 text-blue-700"
     },
     {
-      quote: "Small group classes are the best. It's affordable but feels like 1-on-1 tutoring because Gabriel answers every question.",
-      name: "Sarah J.",
-      location: "London",
-      detail: "A-Level Maths",
-      image: "SJ"
+      icon: Icons.Check,
+      title: "Recordings, notes & feedback",
+      description: "Every class comes with a recording, written notes, and personalised feedback you can revisit anytime.",
+      color: "bg-amber-50 text-amber-700"
     }
   ];
 
   return (
-    <section id="results" className="py-24 bg-gradient-to-b from-white to-slate-50">
+    <section id="approach" className="py-24 bg-gradient-to-b from-white to-slate-50">
       <div className="max-w-7xl mx-auto px-5 lg:px-8">
         <div ref={ref} className={`text-center mb-16 transition-all duration-1000 ${isInView ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
-          <p className="text-teal-600 font-semibold mb-3">Proven Results</p>
+          <p className="text-teal-600 font-semibold mb-3">Our Approach</p>
           <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-slate-900">
-            Real Learners. Real Results.
+            Built to help you actually improve
           </h2>
         </div>
 
         <div className="grid md:grid-cols-3 gap-8">
-          {stories.map((story, i) => (
+          {pillars.map((pillar, i) => (
             <div
               key={i}
               className={`bg-white rounded-3xl p-8 shadow-sm border border-slate-100 hover:shadow-xl hover:border-transparent transition-all duration-500 ${isInView ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}
               style={{ transitionDelay: `${i * 150}ms` }}
             >
-              <Icons.Quote className="w-10 h-10 text-teal-100 mb-4" />
-              <p className="text-slate-700 leading-relaxed text-lg mb-6">"{story.quote}"</p>
-              <div className="flex items-center gap-4">
-                <div className="w-12 h-12 rounded-full bg-gradient-to-br from-teal-400 to-teal-500 flex items-center justify-center text-white font-semibold">
-                  {story.image}
-                </div>
-                <div>
-                  <p className="font-semibold text-slate-900">{story.name}</p>
-                  <p className="text-sm text-slate-500">{story.location}</p>
-                  <p className="text-xs text-teal-600 font-medium mt-0.5">{story.detail}</p>
-                </div>
+              <div className={`w-14 h-14 rounded-2xl ${pillar.color} flex items-center justify-center mb-6`}>
+                <pillar.icon className="w-7 h-7" />
               </div>
+              <h3 className="text-xl font-bold text-slate-900 mb-3">{pillar.title}</h3>
+              <p className="text-slate-600 leading-relaxed">{pillar.description}</p>
             </div>
           ))}
         </div>
+
+        <p className="text-center text-slate-500 mt-12 max-w-2xl mx-auto">
+          We're a new, founder-led tutoring outfit — so you get senior attention from day one.
+          Be one of our first students and help shape what EduTrack Hub becomes.
+        </p>
       </div>
     </section>
   );
@@ -575,14 +637,14 @@ const FinalCTA = () => {
         <Icons.HeroBlob />
       </div>
       <div className="max-w-4xl mx-auto text-center px-6 relative z-10">
-        <h2 className="text-4xl md:text-5xl font-bold text-white mb-6">Ready to level up?</h2>
+        <h2 className="text-4xl md:text-5xl font-bold text-white mb-6">Ready to get started?</h2>
         <p className="text-teal-100 text-xl mb-10 max-w-2xl mx-auto">
-          Join the next cohort of high-achievers. Spaces are limited for live sessions.
+          Join an upcoming cohort. Places in each small-group class are limited.
         </p>
         <div className="flex flex-col sm:flex-row gap-4 justify-center">
-          <a href="/classes" className="bg-white text-teal-900 px-8 py-4 rounded-full font-bold text-lg hover:bg-teal-50 hover:scale-105 transition-all shadow-lg">
+          <Link href="/classes" className="bg-white text-teal-900 px-8 py-4 rounded-full font-bold text-lg hover:bg-teal-50 hover:scale-105 transition-all shadow-lg">
             Find Your Class
-          </a>
+          </Link>
         </div>
       </div>
     </section>
@@ -646,7 +708,6 @@ export default function Home({ posts }) {
       </Head>
 
       <style jsx global>{`
-        * { font-family: 'Plus Jakarta Sans', system-ui, sans-serif; }
         html { scroll-behavior: smooth; }
         .animate-float { animation: float 6s ease-in-out infinite; }
         .animate-float-delayed { animation: float 6s ease-in-out 3s infinite; }
@@ -664,7 +725,7 @@ export default function Home({ posts }) {
         <LearningHubs />
         <LeadMagnet />
         <Programs />
-        <Testimonials />
+        <OurApproach />
         <LatestPosts posts={posts} />
         <FinalCTA />
         <Footer />
