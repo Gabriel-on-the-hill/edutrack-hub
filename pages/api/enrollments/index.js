@@ -91,6 +91,7 @@ export default async function handler(req, res) {
         return res.status(402).json({
           error: 'Payment required',
           requiresPayment: true,
+          className: classData.title,
           price: classData.price,
           currency: classData.currency
         });

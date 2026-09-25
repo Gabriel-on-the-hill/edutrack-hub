@@ -100,13 +100,13 @@ const nextConfig = {
   // ========================================================================
   async redirects() {
     return [
-      // EDIT: Add your URL redirects here
-      // Example: redirect old URLs to new ones
-      // {
-      //   source: '/old-page',
-      //   destination: '/new-page',
-      //   permanent: true, // 301 redirect
-      // },
+      // Unfinished sections, hidden until launch-ready (see FEATURES in lib/site.js).
+      // Remove a line here when you switch that feature on.
+      { source: '/resources', destination: '/', permanent: false },
+      { source: '/hubs/:slug*', destination: '/classes', permanent: false },
+      { source: '/admin/curriculum/generator', destination: '/admin/curriculum', permanent: false },
+      // Blog post renamed (year removed from the title and address)
+      { source: '/blog/sat-math-strategies-2025', destination: '/blog/digital-sat-math-strategies', permanent: true },
     ];
   },
 

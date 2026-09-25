@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react';
 import AdminLayout from '../../../components/admin/AdminLayout';
 import { withAuth } from '../../../hooks/useAuth';
 import { Icons } from '../../../components/ui/Icons';
+import { FEATURES } from '../../../lib/site';
 
 function CurriculaIndex() {
   const [curricula, setCurricula] = useState([]);
@@ -38,13 +39,13 @@ function CurriculaIndex() {
           <h1 className="text-3xl font-bold text-slate-900">Curricula</h1>
           <p className="text-slate-600 mt-1">Manage educational frameworks and competency sets.</p>
         </div>
-        <Link
+        {FEATURES.curriculumGenerator && (<Link
           href="/admin/curriculum/generator"
           className="inline-flex items-center gap-2 bg-teal-600 text-white px-6 py-2.5 rounded-full font-semibold shadow-lg shadow-teal-500/25 hover:bg-teal-700 transition-all"
         >
           <Icons.Sparkles className="w-4 h-4" />
           AI Generator
-        </Link>
+        </Link>)}
       </div>
 
       {loading ? (

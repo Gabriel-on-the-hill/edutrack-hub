@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { useAuth } from '../../hooks/useAuth';
+import { FEATURES } from '../../lib/site';
 
 // Icons
 const Icons = {
@@ -80,6 +81,7 @@ export default function Navigation({ transparent = false }) {
 
           {/* Desktop Navigation */}
           <div className="hidden md:flex items-center gap-8">
+            {FEATURES.learningHubs && (
             <div className="relative group">
               <button className="flex items-center gap-1 text-slate-600 hover:text-teal-600 transition-colors font-medium py-4">
                 Learning Hubs
@@ -108,7 +110,8 @@ export default function Navigation({ transparent = false }) {
                 </Link>
               </div>
             </div>
-            {user && (
+            )}
+            {user && FEATURES.resourceLibrary && (
               <Link href="/resources" className="text-slate-600 hover:text-teal-600 transition-colors font-medium">
                 Resources
               </Link>
@@ -122,9 +125,11 @@ export default function Navigation({ transparent = false }) {
             <Link href="/blog" className="text-slate-600 hover:text-teal-600 transition-colors font-medium">
               Blog
             </Link>
-            <Link href="/admin/curriculum" className="text-slate-600 hover:text-teal-600 transition-colors font-medium">
-              Curricula
-            </Link>
+            {user?.role === 'ADMIN' && (
+              <Link href="/admin/curriculum" className="text-slate-600 hover:text-teal-600 transition-colors font-medium">
+                Curricula
+              </Link>
+            )}
           </div>
 
           {/* CTA Buttons - Auth Aware */}
@@ -200,6 +205,7 @@ export default function Navigation({ transparent = false }) {
               </div>
             )}
 
+{FEATURES.learningHubs && (
             <details className="group">
               <summary className="flex items-center justify-between text-slate-700 hover:text-teal-600 font-medium py-2 cursor-pointer list-none">
                 Learning Hubs
@@ -214,7 +220,8 @@ export default function Navigation({ transparent = false }) {
                 <Link href="/hubs/partner" className="block text-sm text-slate-600 py-1">Partner (Parents)</Link>
               </div>
             </details>
-            {user && (
+            )}
+            {user && FEATURES.resourceLibrary && (
               <Link href="/resources" className="block text-slate-700 hover:text-teal-600 font-medium py-2">
                 Resources
               </Link>

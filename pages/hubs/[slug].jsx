@@ -98,7 +98,7 @@ export default function HubPage() {
         cta: "View Mastery Cohorts",
         ctaLink: "/classes",
         resources: [
-            { title: "SAT Strategy Guide", description: "Our 2025 exam-winning playbook.", type: "PDF Guide" },
+            { title: "SAT Strategy Guide", description: "Our exam-day playbook.", type: "PDF Guide" },
             { title: "IGCSE Math Formula Sheet", description: "All critical formulas in one page.", type: "Cheat Sheet" }
         ]
     } : null);

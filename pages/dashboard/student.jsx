@@ -7,6 +7,7 @@ import { useState, useEffect } from 'react';
 import { useRouter } from 'next/router';
 import { useAuth, withAuth } from '../../hooks/useAuth';
 import Image from 'next/image';
+import { FEATURES, whatsappLink } from '../../lib/site';
 
 // Minimal line-icon set (stroke = currentColor) — keeps the UI clean and consistent.
 const svg = (paths) => ({ className = 'w-5 h-5' }) => (
@@ -31,6 +32,7 @@ function StudentDashboard() {
   const router = useRouter();
   const { user, logout } = useAuth();
   const [enrollments, setEnrollments] = useState([]);
+  const [paymentNotice, setPaymentNotice] = useState(null);
   const [upcomingClasses, setUpcomingClasses] = useState([]);
   const [progress, setProgress] = useState(null);
   const [stats, setStats] = useState({
@@ -80,6 +82,13 @@ function StudentDashboard() {
       });
 
       if (res.status === 402) {
+        // Online card payment is switched off (FEATURES.onlinePayments in lib/site.js):
+        // tell the student how to pay instead of sending them to Stripe.
+        if (!FEATURES.onlinePayments) {
+          const info = await res.json().catch(() => ({}));
+          setPaymentNotice({ title: info.className || info.title || 'this class' });
+          return;
+        }
         // Payment Required -> Redirect to Stripe
         const checkoutRes = await fetch('/api/checkout/session', {
           method: 'POST',
@@ -327,6 +336,27 @@ function StudentDashboard() {
 
         {/* Main Content */}
         <main className="flex-1 p-4 md:p-8 lg:p-10 max-w-7xl mx-auto w-full pt-20 lg:pt-10">
+          {paymentNotice && (
+            <div className="mb-8 p-6 bg-white border border-teal-200 rounded-2xl shadow-sm flex items-start justify-between gap-4">
+              <div>
+                <h3 className="font-bold text-lg text-slate-900">One more step to join {paymentNotice.title}</h3>
+                <p className="text-slate-600 mt-1">
+                  This is a paid class. Message us and we'll send you the payment link and confirm your place.
+                </p>
+                <div className="mt-4 flex flex-wrap gap-3">
+                  {whatsappLink() && (
+                    <a href={whatsappLink(`Hi! I'd like to pay for ${paymentNotice.title}`)} target="_blank" rel="noopener noreferrer" className="inline-flex items-center bg-teal-600 hover:bg-teal-700 text-white px-5 py-2.5 rounded-full font-semibold">
+                      Message us on WhatsApp
+                    </a>
+                  )}
+                  <Link href="/contact" className="inline-flex items-center border border-slate-200 hover:border-teal-300 text-slate-700 px-5 py-2.5 rounded-full font-semibold">
+                    Contact page
+                  </Link>
+                </div>
+              </div>
+              <button onClick={() => setPaymentNotice(null)} className="p-2 hover:bg-slate-100 rounded-lg transition-colors" aria-label="Dismiss">✕</button>
+            </div>
+          )}
           {showSuccess && (
             <div
               className="mb-8 p-6 bg-gradient-to-r from-teal-500 to-teal-600 rounded-2xl text-white shadow-xl shadow-teal-500/20 flex items-center justify-between"

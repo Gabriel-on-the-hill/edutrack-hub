@@ -4,15 +4,16 @@ import { useState } from 'react';
 import Navigation from '@/components/layout/Navigation';
 import Footer from '@/components/layout/Footer';
 
-// ============================================
-// CONFIGURATION - Update these with your real details
-// ============================================
-const WHATSAPP_NUMBER = "2348000000000"; // Replace with your actual number (no + or spaces)
+import { whatsappLink } from '@/lib/site';
+
+// The WhatsApp number is set once in lib/site.js (NEXT_PUBLIC_WHATSAPP_NUMBER).
+// While it is empty, every WhatsApp button on this page is hidden.
 const WHATSAPP_MESSAGE = "Hi! I'm interested in tutoring classes";
+const WA_LINK = whatsappLink(WHATSAPP_MESSAGE);
 
 // WhatsApp QR Code Component
 const WhatsAppQRCode = ({ size = 200 }) => {
-  const whatsappUrl = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(WHATSAPP_MESSAGE)}`;
+  const whatsappUrl = WA_LINK;
   const qrApiUrl = `https://api.qrserver.com/v1/create-qr-code/?size=${size}x${size}&data=${encodeURIComponent(whatsappUrl)}&bgcolor=ffffff&color=25D366&margin=10`;
   
   return (
@@ -141,15 +142,15 @@ export default function Contact() {
       `}</style>
 
       {/* Floating WhatsApp */}
-      <a
-        href={`https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(WHATSAPP_MESSAGE)}`}
+      {WA_LINK && <a
+        href={WA_LINK}
         target="_blank"
         rel="noopener noreferrer"
         className="fixed bottom-6 right-6 z-50 bg-green-500 hover:bg-green-600 text-white p-4 rounded-full shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-110"
         aria-label="Chat on WhatsApp"
       >
         <Icons.WhatsApp className="w-6 h-6" />
-      </a>
+      </a>}
 
       <div className="min-h-screen bg-slate-50">
         <Navigation />
@@ -179,8 +180,8 @@ export default function Contact() {
           <div className="max-w-7xl mx-auto px-5 lg:px-8">
             <div className="grid md:grid-cols-3 gap-6 -mt-20">
               {/* WhatsApp */}
-              <a
-                href={`https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent("Hi! I have a question about tutoring")}`}
+              {WA_LINK && <a
+                href={whatsappLink("Hi! I have a question about tutoring")}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="bg-gradient-to-br from-green-500 to-green-600 text-white rounded-2xl p-8 shadow-xl hover:shadow-2xl hover:-translate-y-1 transition-all duration-300"
@@ -191,7 +192,7 @@ export default function Contact() {
                 <h3 className="text-xl font-bold mb-2">WhatsApp</h3>
                 <p className="text-green-100 mb-4">Fastest response! Usually within minutes.</p>
                 <span className="font-semibold">Click to chat →</span>
-              </a>
+              </a>}
 
               {/* Email */}
               <div className="bg-white rounded-2xl p-8 shadow-xl border border-slate-100">
@@ -364,7 +365,7 @@ export default function Contact() {
         </section>
 
         {/* CTA with QR Code */}
-        <section className="py-16 bg-slate-900">
+        {WA_LINK && <section className="py-16 bg-slate-900">
           <div className="max-w-5xl mx-auto px-5 lg:px-8">
             <div className="grid md:grid-cols-2 gap-12 items-center">
               <div className="text-center md:text-left">
@@ -376,7 +377,7 @@ export default function Contact() {
                   Click the button or scan the QR code with your phone.
                 </p>
                 <a
-                  href={`https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(WHATSAPP_MESSAGE)}`}
+                  href={WA_LINK}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="inline-flex items-center gap-3 bg-green-500 hover:bg-green-600 text-white px-8 py-4 rounded-xl font-bold text-lg transition-all duration-300"
@@ -391,7 +392,7 @@ export default function Contact() {
               </div>
             </div>
           </div>
-        </section>
+        </section>}
 
         <Footer minimal />
       </div>

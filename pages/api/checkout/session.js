@@ -2,11 +2,17 @@ import { requireAuth } from '../../../lib/auth';
 import prisma from '../../../lib/db';
 import Stripe from 'stripe';
 import { applyRateLimit } from '../../../lib/rate-limit';
+import { FEATURES } from '../../../lib/site';
 
 // Initialize Stripe
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY || 'sk_test_placeholder');
 
 export default async function handler(req, res) {
+    // Card checkout is switched off until payments go live (FEATURES.onlinePayments in lib/site.js).
+    if (!FEATURES.onlinePayments) {
+        return res.status(503).json({ error: 'Online payment is not available yet. Please contact us to pay.' });
+    }
+
     // 1. Rate Limiting (5 attempts per 10 minutes)
     if (!await applyRateLimit(req, res, {
         limit: 5,

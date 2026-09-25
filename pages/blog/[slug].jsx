@@ -6,6 +6,7 @@ import Footer from '../../components/layout/Footer';
 import { serialize } from 'next-mdx-remote/serialize';
 import { MDXRemote } from 'next-mdx-remote';
 import { getPostBySlug, getPostSlugs } from '../../lib/mdx';
+import { SITE_URL } from '../../lib/site';
 
 const components = {
     // Custom components can be passed here
@@ -13,7 +14,7 @@ const components = {
 
 export default function BlogPost({ source, meta }) {
     const router = useRouter();
-    const siteUrl = process.env.NEXT_PUBLIC_APP_URL || 'https://edutrackhub.com';
+    const siteUrl = SITE_URL;
     const postUrl = `${siteUrl}${router.asPath}`;
     const shareTitle = encodeURIComponent(`${meta.title} | EduTrack Hub`);
 
@@ -70,7 +71,7 @@ export default function BlogPost({ source, meta }) {
                         <MDXRemote {...source} components={components} />
 
                         <div className="mt-16 pt-8 border-t border-slate-100 italic text-slate-500 text-sm">
-                            Last updated on {meta.date} by {meta.author}
+                            Last updated on {meta.updated || meta.date} by {meta.author}
                         </div>
                     </div>
 

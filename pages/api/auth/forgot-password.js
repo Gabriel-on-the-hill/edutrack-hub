@@ -8,7 +8,7 @@ import { sendEmail, passwordResetTemplate } from '../../../lib/email';
 import { applyRateLimit } from '../../../lib/rate-limit';
 import { getJwtSecret } from '../../../lib/auth';
 
-const APP_URL = process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:3000';
+import { SITE_URL as APP_URL } from '../../../lib/site';
 
 const schema = z.object({
     email: z.string().email('Invalid email address'),
