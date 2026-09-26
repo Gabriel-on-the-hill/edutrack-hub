@@ -2,6 +2,7 @@ import Head from 'next/head';
 import Link from 'next/link';
 import Navigation from '@/components/layout/Navigation';
 import Footer from '@/components/layout/Footer';
+import WhatsAppButton from '@/components/marketing/WhatsAppButton';
 import RegionSwitch, { useRegion } from '@/components/marketing/RegionSwitch';
 import { PROGRAMMES, EVERY_PLAN, getProgramme } from '@/lib/programmes';
 import { SITE_URL, LAUNCH_OFFER, whatsappLink } from '@/lib/site';
@@ -111,6 +112,7 @@ export default function ProgrammePage({ slug }) {
           </div>
         </section>
         <Footer />
+        <WhatsAppButton message={`Hi! I'm interested in the ${p.name} at EduTrack Hub.`} />
       </div>
     </>
   );

@@ -68,11 +68,11 @@ export default function Navigation({ transparent = false }) {
           {/* Logo */}
           <Link href="/" className="flex items-center gap-2 group">
             <Image
-              src="/logo.png"
-              alt="EduTrack Hub"
-              width={40}
-              height={40}
-              className="rounded-xl"
+              src="/logo-mark.png"
+              alt=""
+              width={36}
+              height={36}
+              className="h-9 w-9"
             />
             <span className="font-semibold text-xl tracking-tight text-slate-900">
               EduTrack<span className="text-teal-600">Hub</span>

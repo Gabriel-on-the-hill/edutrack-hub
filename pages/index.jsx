@@ -1,14 +1,24 @@
-import Head from 'next/head';
 import Image from 'next/image';
 import Link from 'next/link';
 import Navigation from '@/components/layout/Navigation';
 import Footer from '@/components/layout/Footer';
+import SEO from '@/components/SEO';
+import GapMapPreview from '@/components/marketing/GapMapPreview';
+import WhatsAppButton from '@/components/marketing/WhatsAppButton';
 import { PROGRAMMES, REGIONS } from '@/lib/programmes';
-import { SITE_URL, LAUNCH_OFFER, TUTOR, whatsappLink } from '@/lib/site';
+import { LAUNCH_OFFER, TUTOR, PROOF_FACTS, RESULTS, whatsappLink } from '@/lib/site';
 
 // Homepage: one job. Show the outcome and the free first step (consultation →
 // assessment class). No prices here: each programme page and /fees show them in
 // the family's own currency, after the value.
+
+// Homepage order: the two programmes most families come for first.
+// Anything not listed here follows in its lib/programmes.js order.
+const HOME_ORDER = ['sat-programme', 'small-group-classes', 'one-to-one', 'psat-prep'];
+const HOME_PROGRAMMES = [...PROGRAMMES].sort((a, b) => {
+  const ia = HOME_ORDER.indexOf(a.slug); const ib = HOME_ORDER.indexOf(b.slug);
+  return (ia < 0 ? 99 : ia) - (ib < 0 ? 99 : ib);
+});
 
 const STEPS = [
   { title: 'Free consultation call', body: 'We talk about your child, the goal and the fees. No obligation.' },
@@ -32,11 +42,11 @@ export default function Home() {
 
   return (
     <>
-      <Head>
-        <title>EduTrack Hub | Live online tutoring, planned from a real assessment</title>
-        <meta name="description" content="Live online tutoring for SAT, PSAT and school subjects, for families in Nigeria and in the UK, US and Canada. Start with a free consultation and a free assessment class." />
-        <link rel="canonical" href={`${SITE_URL}/`} />
-      </Head>
+      <SEO
+        fullTitle="EduTrack Hub | Live online tutoring, planned from a real assessment"
+        description="Live online tutoring for SAT, PSAT and school subjects, for families in Nigeria and in the UK, US and Canada. Start with a free consultation and a free assessment class."
+        url="/"
+      />
       <div className="min-h-screen bg-slate-50">
         <Navigation />
 
@@ -70,16 +80,20 @@ export default function Home() {
                 </div>
                 <p className="mt-4 !text-sm text-slate-500">Free consultation · free assessment class · no card needed</p>
               </div>
-              <figure className="relative mx-auto w-full max-w-md">
-                <div className="rounded-3xl bg-slate-100 p-4 md:p-6">
-                  <Image src="/samples/sample-gap-map.webp" alt="Sample one-page SAT gap map showing strong, shaky and gap skills and the top three fixes"
-                    width={1200} height={1697} priority className="rounded-xl shadow-xl shadow-slate-900/10 w-full h-auto" />
-                </div>
-                <figcaption className="mt-3 !text-sm text-slate-500 text-center">
-                  What an SAT family receives after the assessment (sample, fictional student).
-                </figcaption>
-              </figure>
+              <GapMapPreview />
             </div>
+
+            {PROOF_FACTS.length > 0 && (
+              <dl className="mt-16 grid grid-cols-2 lg:grid-cols-4 gap-x-6 gap-y-8 border-t border-slate-100 pt-10">
+                {PROOF_FACTS.map((f) => (
+                  <div key={f.label}>
+                    <dt className="sr-only">{f.label}</dt>
+                    <dd className="text-2xl md:text-3xl font-bold text-slate-900">{f.value}</dd>
+                    <dd className="mt-1 text-sm text-slate-500">{f.label}</dd>
+                  </div>
+                ))}
+              </dl>
+            )}
           </div>
         </section>
 
@@ -105,7 +119,7 @@ export default function Home() {
             <h2 className="!text-3xl md:!text-4xl font-bold text-slate-900">Programmes</h2>
             <p className="mt-3 !text-lg text-slate-600 max-w-2xl">Not sure which fits? That&apos;s what the free consultation is for.</p>
             <ul className="mt-10 grid md:grid-cols-2 gap-6">
-              {PROGRAMMES.map((p) => (
+              {HOME_PROGRAMMES.map((p) => (
                 <li key={p.slug}>
                   <Link href={`/programmes/${p.slug}`}
                     className={`group flex h-full flex-col rounded-3xl border p-6 md:p-8 transition-colors ${p.featured ? 'border-teal-200 bg-teal-50/60 hover:border-teal-300' : 'border-slate-100 bg-slate-50 hover:border-teal-200'}`}>
@@ -168,12 +182,39 @@ export default function Home() {
               <h2 className="mt-2 !text-3xl md:!text-4xl font-bold text-slate-900">{TUTOR.name}</h2>
               <p className="mt-1 !text-lg text-slate-500">{TUTOR.role}</p>
               {TUTOR.bio && <p className="mt-5 !text-lg text-slate-600 leading-relaxed">{TUTOR.bio}</p>}
+              {TUTOR.facts?.length > 0 && (
+                <ul className="mt-5 flex flex-wrap gap-2">
+                  {TUTOR.facts.map((f) => (
+                    <li key={f} className="rounded-full bg-teal-50 border border-teal-100 px-3 py-1 text-sm font-medium text-teal-800">{f}</li>
+                  ))}
+                </ul>
+              )}
               <p className="mt-5 !text-base text-slate-600 leading-relaxed">
                 Every tutor is chosen for your child after the assessment class, and works from the same plan and the same monthly report.
               </p>
             </div>
           </div>
         </section>
+
+        {/* Results from past students (hidden until RESULTS in lib/site.js has entries) */}
+        {RESULTS.length > 0 && (
+          <section className="pt-4 pb-20 bg-white">
+            <div className="max-w-6xl mx-auto px-5 lg:px-8">
+              <h2 className="!text-3xl md:!text-4xl font-bold text-slate-900">Results from {TUTOR.name}&apos;s students</h2>
+              <p className="mt-3 !text-lg text-slate-600 max-w-2xl">Shared with the families&apos; permission.</p>
+              <ul className="mt-10 grid md:grid-cols-3 gap-6">
+                {RESULTS.map((r) => (
+                  <li key={`${r.result}-${r.who}`} className="flex flex-col rounded-3xl bg-white border border-slate-100 p-6 md:p-8">
+                    <span className="text-3xl font-bold text-teal-700 tabular-nums">{r.result}</span>
+                    <span className="mt-1 font-semibold text-slate-900">{r.what}</span>
+                    {r.quote && <blockquote className="mt-4 !text-base text-slate-600 leading-relaxed">&ldquo;{r.quote}&rdquo;</blockquote>}
+                    <span className="mt-auto pt-4 text-sm text-slate-500">{r.who}</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </section>
+        )}
 
         {/* Straight answers */}
         <section className="py-20">
@@ -211,6 +252,7 @@ export default function Home() {
         </section>
 
         <Footer />
+        <WhatsAppButton message="Hi! I found EduTrack Hub and I'd like to ask about tutoring." />
       </div>
     </>
   );

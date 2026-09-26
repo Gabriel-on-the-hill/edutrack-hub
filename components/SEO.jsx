@@ -2,17 +2,22 @@
 // Reusable SEO component for consistent meta tags across pages
 
 import Head from 'next/head';
+import { SITE_URL } from '@/lib/site';
 
 const defaultMeta = {
     title: 'EduTrack Hub',
-    description: 'Live online tutoring for IGCSE, A-Levels, SAT, IB, and AP. Small group classes (max 8 students) with recordings and notes after every session. Book a free consultation to start.',
-    image: '/brand-board.png',
-    url: 'https://edutrackhub.com',
+    description: 'Live online tutoring for SAT, PSAT and school subjects, for families in Nigeria and in the UK, US and Canada. Start with a free consultation and a free assessment class.',
+    image: '/og-image.png',
+    url: SITE_URL,
     type: 'website',
 };
 
+// Social previews (WhatsApp, X, LinkedIn) need absolute URLs.
+const absolute = (path) => (path.startsWith('http') ? path : `${SITE_URL}${path.startsWith('/') ? '' : '/'}${path}`);
+
 export default function SEO({
     title,
+    fullTitle,
     description,
     image,
     url,
@@ -20,10 +25,10 @@ export default function SEO({
     noIndex = false,
 }) {
     const meta = {
-        title: title ? `${title} - EduTrack Hub` : defaultMeta.title,
+        title: fullTitle || (title ? `${title} - EduTrack Hub` : defaultMeta.title),
         description: description || defaultMeta.description,
-        image: image || defaultMeta.image,
-        url: url || defaultMeta.url,
+        image: absolute(image || defaultMeta.image),
+        url: absolute(url || defaultMeta.url),
         type: type || defaultMeta.type,
     };
 
@@ -43,6 +48,8 @@ export default function SEO({
             <meta property="og:title" content={meta.title} />
             <meta property="og:description" content={meta.description} />
             <meta property="og:image" content={meta.image} />
+            {!image && <meta property="og:image:width" content="1200" />}
+            {!image && <meta property="og:image:height" content="630" />}
             <meta property="og:site_name" content="EduTrack Hub" />
 
             {/* Twitter */}
