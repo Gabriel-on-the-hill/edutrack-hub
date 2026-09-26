@@ -103,6 +103,7 @@ const nextConfig = {
       // Unfinished sections, hidden until launch-ready (see FEATURES in lib/site.js).
       // Remove a line here when you switch that feature on.
       { source: '/resources', destination: '/', permanent: false },
+      { source: '/score-review', destination: '/consultation?programme=sat-programme', permanent: false },
       { source: '/hubs/:slug*', destination: '/classes', permanent: false },
       { source: '/admin/curriculum/generator', destination: '/admin/curriculum', permanent: false },
       // Blog post renamed (year removed from the title and address)

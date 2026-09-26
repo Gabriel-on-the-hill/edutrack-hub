@@ -1,6 +1,7 @@
 import Link from 'next/link';
 import Image from 'next/image';
 import { whatsappLink } from '../../lib/site';
+import { PROGRAMMES } from '../../lib/programmes';
 
 const Icons = {
   Instagram: ({ className }) => (
@@ -57,8 +58,8 @@ export default function Footer({ minimal = false }) {
               </span>
             </Link>
             <p className="text-slate-400 leading-relaxed max-w-md mb-6">
-              Live online tutoring that transforms struggling students into confident learners.
-              Small groups, real understanding, global community.
+              Education beyond the classroom. Live online tutoring for families in Nigeria and in the
+              UK, US and Canada, planned from a real assessment of every student.
             </p>
             <div className="flex items-center gap-4">
               <a href="https://instagram.com/edutrackhub" target="_blank" rel="noopener noreferrer" className="w-10 h-10 rounded-full bg-slate-800 hover:bg-teal-600 flex items-center justify-center transition-colors">
@@ -80,19 +81,20 @@ export default function Footer({ minimal = false }) {
 
           {/* Programs */}
           <div>
-            <h4 className="text-white font-semibold mb-4">Programs</h4>
+            <h4 className="!text-base text-white font-semibold mb-4">Programmes</h4>
             <ul className="space-y-3">
-              {['IGCSE Tutoring', 'A-Levels Prep', 'SAT Preparation', 'IB Support', 'AP Classes'].map((item) => (
-                <li key={item}>
-                  <Link href="/classes" className="hover:text-teal-400 transition-colors">{item}</Link>
+              {PROGRAMMES.map((p) => (
+                <li key={p.slug}>
+                  <Link href={`/programmes/${p.slug}`} className="hover:text-teal-400 transition-colors">{p.name}</Link>
                 </li>
               ))}
+              <li><Link href="/fees" className="hover:text-teal-400 transition-colors">Fees</Link></li>
             </ul>
           </div>
 
           {/* Company */}
           <div>
-            <h4 className="text-white font-semibold mb-4">Company</h4>
+            <h4 className="!text-base text-white font-semibold mb-4">Company</h4>
             <ul className="space-y-3">
               {[
                 { name: 'About', href: '/about' },

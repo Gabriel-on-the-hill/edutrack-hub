@@ -21,22 +21,22 @@ const GRADES = ['Grade 8', 'Grade 9', 'Grade 10', 'Grade 11', 'Grade 12', 'Gap y
 
 const STEPS = [
   {
-    title: 'Take the free official practice test',
-    body: 'Download College Board\'s Bluebook app and sit a full-length practice test in one go, timed, like the real thing. It takes about 2 hours 15 minutes.',
+    title: 'Free consultation call',
+    body: 'A short call about the student, the target score and test date, and the fees. Ask us anything; there\'s no obligation.',
   },
   {
-    title: 'Send us the result',
-    body: 'Fill in the form below with the scores, then send the score report (a screenshot or PDF from Bluebook or My Practice) on WhatsApp.',
+    title: 'Free assessment class',
+    body: 'We find the student\'s starting point. If they\'ve already taken a Bluebook practice test or a real SAT/PSAT, we start from that result. Otherwise we assess them in the class.',
   },
   {
-    title: 'Get your gap map',
-    body: 'Within two working days you get a one-page map of which skills are costing points, in what order to fix them, and a realistic target. Free, with no obligation.',
+    title: 'A plan and a tutor from day one',
+    body: 'You get the one-page gap map (the skills costing the most points, what to fix first, a realistic target) and the right tutor for your child from the very first lesson.',
   },
 ];
 
 const EMPTY = {
   studentName: '', role: 'parent', whatsapp: '', email: '', grade: '', targetTest: '',
-  practiceTest: '', total: '', rw: '', math: '', notes: '', consent: false, website: '',
+  hasResult: 'yes', practiceTest: '', total: '', rw: '', math: '', notes: '', consent: false, website: '',
 };
 
 function Field({ label, hint, error, children, htmlFor }) {
@@ -73,7 +73,7 @@ export default function ScoreReview() {
       const res = await fetch('/api/score-review', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(form),
+        body: JSON.stringify(form.hasResult === 'yes' ? form : { ...form, practiceTest: '', total: '', rw: '', math: '' }),
       });
       const data = await res.json().catch(() => ({}));
       if (res.ok) {
@@ -94,13 +94,14 @@ export default function ScoreReview() {
   const waReport = whatsappLink(
     `Hi! I just requested a free score review for ${form.studentName || 'my child'}. Here is the Bluebook score report:`
   );
-  const waQuestion = whatsappLink('Hi! I have a question about the free Bluebook score review.');
+  const hasResult = form.hasResult === 'yes';
+  const waQuestion = whatsappLink('Hi! I have a question about SAT/PSAT tutoring.');
 
   return (
     <>
       <Head>
-        <title>Free SAT Score Review from your Bluebook practice test | EduTrack Hub</title>
-        <meta name="description" content="Take College Board's free Bluebook practice test, send us the score report, and get a one-page gap map showing which SAT skills to fix first. Free, no obligation." />
+        <title>Free SAT &amp; PSAT consultation and assessment | EduTrack Hub</title>
+        <meta name="description" content="Book a free consultation and a free assessment class. We find where the SAT or PSAT points are going and give you a one-page gap map, a plan and the right tutor from day one." />
         <link rel="canonical" href={`${SITE_URL}/score-review`} />
         <link rel="icon" href="/logo.png" type="image/png" />
         <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -117,9 +118,10 @@ export default function ScoreReview() {
             <div className="max-w-2xl mx-auto px-5">
               <div className="bg-white rounded-3xl border border-slate-100 shadow-sm p-8 md:p-10">
                 <p className="text-sm font-semibold text-teal-700 uppercase tracking-wide">Request received</p>
-                <h1 className="mt-2 !text-3xl font-bold text-slate-900">Thank you. One last step.</h1>
+                {hasResult ? (<>
+                <h1 className="mt-2 !text-3xl font-bold text-slate-900">Thank you. One more thing.</h1>
                 <p className="mt-4 !text-base text-slate-600 leading-relaxed">
-                  Send us the score report so we can read the skill breakdown, not just the totals.
+                  Please send us the score report so we can read the skill breakdown before we talk.
                   A screenshot of the results screen or the PDF from My Practice is fine.
                 </p>
                 {waReport ? (
@@ -131,9 +133,21 @@ export default function ScoreReview() {
                   <p className="mt-6 !text-base text-slate-700 font-medium">We&apos;ll message you on WhatsApp shortly to collect the report.</p>
                 )}
                 <ol className="mt-8 space-y-3 text-base text-slate-600">
-                  <li><span className="font-semibold text-slate-900">Within two working days:</span> your one-page gap map.</li>
-                  <li><span className="font-semibold text-slate-900">Then, if you want it:</span> a free trial class built around the top gap.</li>
+                  <li><span className="font-semibold text-slate-900">Next:</span> we&apos;ll message you on WhatsApp to set a time for the consultation call.</li>
+                  <li><span className="font-semibold text-slate-900">Then:</span> a free assessment class that starts from the score report, and your gap map and plan.</li>
                 </ol>
+                </>) : (<>
+                <h1 className="mt-2 !text-3xl font-bold text-slate-900">Thank you. We&apos;ll be in touch.</h1>
+                <p className="mt-4 !text-base text-slate-600 leading-relaxed">
+                  We&apos;ll message you on WhatsApp to set a time for the consultation call. After that comes the free
+                  assessment class, where we find the student&apos;s starting point, so the plan and the tutor are right
+                  from the first lesson.
+                </p>
+                <p className="mt-4 !text-base text-slate-600 leading-relaxed">
+                  <span className="font-semibold text-slate-900">Optional:</span>{' '}if the student takes a free full-length
+                  practice test in College Board&apos;s Bluebook app before the assessment, we can go further with the result.
+                </p>
+                </>)}
                 <Link href="/" className="mt-8 inline-block text-teal-700 font-semibold hover:underline">Back to the home page</Link>
               </div>
             </div>
@@ -143,14 +157,13 @@ export default function ScoreReview() {
             {/* Intro */}
             <section className="pt-32 pb-12">
               <div className="max-w-6xl mx-auto px-5 lg:px-8">
-                <p className="text-sm font-semibold text-teal-700 uppercase tracking-wide">Free for SAT &amp; PSAT students</p>
+                <p className="text-sm font-semibold text-teal-700 uppercase tracking-wide">SAT &amp; PSAT · free consultation and assessment</p>
                 <h1 className="mt-3 text-4xl md:text-5xl font-bold text-slate-900 max-w-3xl leading-tight">
                   Find out exactly where the points are going.
                 </h1>
                 <p className="mt-5 text-lg text-slate-600 max-w-2xl leading-relaxed">
-                  Take the official practice test for free, send us the result, and we&apos;ll send back a one-page
-                  gap map: the skills costing the most points, the order to fix them in, and a realistic target
-                  for test day.
+                  Before any lesson, we find the student&apos;s starting point: which skills are costing points, what to fix
+                  first, and a realistic target for test day. The consultation and the assessment class are both free.
                 </p>
 
                 <ol className="mt-12 grid md:grid-cols-3 gap-6">
@@ -163,9 +176,9 @@ export default function ScoreReview() {
                   ))}
                 </ol>
                 <p className="mt-4 !text-sm text-slate-500">
-                  Get Bluebook from{' '}
+                  Already taken a Bluebook practice test or a real SAT/PSAT? Tell us in the form and we&apos;ll start from that
+                  result. Bluebook is free from{' '}
                   <a href="https://bluebook.collegeboard.org/students/download-bluebook" target="_blank" rel="noopener noreferrer" className="text-teal-700 font-medium hover:underline">College Board&apos;s download page</a>.
-                  Haven&apos;t taken a test yet? Send the form anyway and we&apos;ll help you set it up.
                 </p>
               </div>
             </section>
@@ -175,9 +188,22 @@ export default function ScoreReview() {
               <div className="max-w-6xl mx-auto px-5 lg:px-8 grid lg:grid-cols-5 gap-10">
                 <form onSubmit={submit} noValidate className="lg:col-span-3 bg-white rounded-3xl border border-slate-100 shadow-sm p-6 md:p-8 space-y-6">
                   <div>
-                    <h2 className="!text-2xl font-bold text-slate-900">Request your free review</h2>
-                    <p className="mt-1 !text-sm text-slate-500">Takes about two minutes. Scores are optional if you&apos;d rather just send the report.</p>
+                    <h2 className="!text-2xl font-bold text-slate-900">Book a free consultation</h2>
+                    <p className="mt-1 !text-sm text-slate-500">Takes about two minutes.</p>
                   </div>
+
+                  <fieldset>
+                    <legend className="block text-sm font-semibold text-slate-800 mb-2">Has the student taken a Bluebook practice test, or a real SAT or PSAT?</legend>
+                    <div className="flex flex-wrap gap-3">
+                      {[['yes', 'Yes'], ['no', 'Not yet']].map(([v, label]) => (
+                        <label key={v} className={`cursor-pointer rounded-full border px-5 py-2 text-sm font-medium ${form.hasResult === v ? 'border-teal-500 bg-teal-50 text-teal-800' : 'border-slate-200 text-slate-600'}`}>
+                          <input type="radio" name="hasResult" value={v} checked={form.hasResult === v} onChange={set('hasResult')} className="sr-only" />
+                          {label}
+                        </label>
+                      ))}
+                    </div>
+                    {!hasResult && <p className="mt-2 !text-sm text-slate-500">No problem: we&apos;ll assess the student in the free assessment class.</p>}
+                  </fieldset>
 
                   <fieldset>
                     <legend className="block text-sm font-semibold text-slate-800 mb-2">I am the</legend>
@@ -213,13 +239,13 @@ export default function ScoreReview() {
                         {TARGET_TESTS.map((t) => <option key={t}>{t}</option>)}
                       </select>
                     </Field>
-                    <Field label="Practice test taken" htmlFor="practiceTest" hint="e.g. SAT Practice Test 4" error={errors.practiceTest}>
+                    {hasResult && <Field label="Which test?" htmlFor="practiceTest" hint="e.g. SAT Practice Test 4, or the August SAT" error={errors.practiceTest}>
                       <input id="practiceTest" className={inputClass(errors.practiceTest)} value={form.practiceTest} onChange={set('practiceTest')} />
-                    </Field>
+                    </Field>}
                   </div>
 
-                  <fieldset>
-                    <legend className="block text-sm font-semibold text-slate-800 mb-2">Scores from Bluebook (if you have them)</legend>
+                  {hasResult && <fieldset>
+                    <legend className="block text-sm font-semibold text-slate-800 mb-2">Scores (if you have them to hand)</legend>
                     <div className="grid grid-cols-3 gap-3">
                       {[['total', 'Total', '400–1600'], ['rw', 'R&W', '200–800'], ['math', 'Math', '200–800']].map(([k, label, range]) => (
                         <Field key={k} label={<span className="text-xs font-medium text-slate-600">{label} <span className="text-slate-400">{range}</span></span>} htmlFor={k} error={errors[k]}>
@@ -227,7 +253,7 @@ export default function ScoreReview() {
                         </Field>
                       ))}
                     </div>
-                  </fieldset>
+                  </fieldset>}
 
                   <Field label="Anything we should know? (optional)" htmlFor="notes" hint="What feels hardest, past scores, the score you need." error={errors.notes}>
                     <textarea id="notes" rows={3} className={inputClass(errors.notes)} value={form.notes} onChange={set('notes')} />
@@ -239,7 +265,7 @@ export default function ScoreReview() {
                   <label className="flex items-start gap-3 !text-sm !font-normal !text-slate-600 !mb-0">
                     <input type="checkbox" checked={form.consent} onChange={set('consent')} className="mt-1 h-4 w-4 rounded border-slate-300 text-teal-600 focus:ring-teal-500" />
                     <span>
-                      EduTrack Hub may contact me on WhatsApp about this review. We use your details only for this, as set out in our{' '}
+                      EduTrack Hub may contact me on WhatsApp about this request. We use your details only for this, as set out in our{' '}
                       <Link href="/privacy" className="text-teal-700 underline">privacy policy</Link>.
                     </span>
                   </label>
@@ -251,7 +277,7 @@ export default function ScoreReview() {
 
                   <button type="submit" disabled={status === 'sending'}
                     className="w-full sm:w-auto inline-flex items-center justify-center bg-amber-500 hover:bg-amber-600 disabled:opacity-60 text-white px-8 py-3.5 rounded-full font-semibold shadow-lg shadow-amber-500/20 transition-colors">
-                    {status === 'sending' ? 'Sending…' : 'Request my free review'}
+                    {status === 'sending' ? 'Sending…' : 'Book my free consultation'}
                   </button>
                 </form>
 
@@ -267,7 +293,7 @@ export default function ScoreReview() {
                   </div>
                   <div className="bg-white rounded-3xl border border-slate-100 p-6 md:p-8 text-sm text-slate-600 space-y-3">
                     <h2 className="!text-lg font-bold text-slate-900">Straight answers</h2>
-                    <p className="!text-sm"><span className="font-semibold text-slate-900">Is it really free?</span> Yes. There&apos;s no card and no obligation. If you&apos;d like help afterwards, we&apos;ll offer a trial class.</p>
+                    <p className="!text-sm"><span className="font-semibold text-slate-900">Is it really free?</span> Yes. The consultation call and the assessment class are both free, with no card and no obligation. You&apos;ll see the fees before you decide.</p>
                     <p className="!text-sm"><span className="font-semibold text-slate-900">Why the official test?</span> It&apos;s written by the people who write the SAT, and it&apos;s adaptive like the real one, so the score means something.</p>
                     <p className="!text-sm"><span className="font-semibold text-slate-900">PSAT student?</span> Bluebook has free PSAT practice tests too. Same process.</p>
                     {waQuestion && (

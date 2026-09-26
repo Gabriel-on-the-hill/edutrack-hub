@@ -3,6 +3,7 @@
 
 import prisma from '../../lib/db';
 import { SITE_URL } from '../../lib/site';
+import { PROGRAMMES } from '../../lib/programmes';
 import { getAllPosts } from '../../lib/mdx';
 
 export default async function handler(req, res) {
@@ -12,7 +13,9 @@ export default async function handler(req, res) {
     const staticPages = [
         { url: '/', priority: '1.0', changefreq: 'weekly' },
         { url: '/classes', priority: '0.9', changefreq: 'daily' },
-        { url: '/score-review', priority: '0.9', changefreq: 'monthly' },
+        { url: '/consultation', priority: '0.9', changefreq: 'monthly' },
+        { url: '/fees', priority: '0.9', changefreq: 'monthly' },
+        ...PROGRAMMES.map(p => ({ url: `/programmes/${p.slug}`, priority: '0.9', changefreq: 'monthly' })),
         { url: '/about', priority: '0.8', changefreq: 'monthly' },
         { url: '/contact', priority: '0.7', changefreq: 'monthly' },
         { url: '/faq', priority: '0.6', changefreq: 'monthly' },
