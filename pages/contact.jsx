@@ -4,7 +4,7 @@ import { useState } from 'react';
 import Navigation from '@/components/layout/Navigation';
 import Footer from '@/components/layout/Footer';
 
-import { whatsappLink } from '@/lib/site';
+import { whatsappLink, CONTACT_EMAIL, LESSON_HOURS } from '@/lib/site';
 
 // The WhatsApp number is set once in lib/site.js (NEXT_PUBLIC_WHATSAPP_NUMBER).
 // While it is empty, every WhatsApp button on this page is hidden.
@@ -109,20 +109,20 @@ export default function Contact() {
 
   const faqs = [
     {
-      q: "How do the live classes work?",
-      a: "Classes are held via Google Meet. You'll receive a link before each session. Classes are interactive - you can ask questions and get instant feedback."
+      q: "How do the lessons work?",
+      a: "Lessons are live on Google Meet at a fixed weekly time. You'll get the link before each lesson, and your child can ask questions and get feedback as they work."
     },
     {
-      q: "What subjects do you cover?",
-      a: "We specialize in IGCSE, A-Levels, SAT, IB, and AP preparation across Math, Physics, Chemistry, and more."
+      q: "What do you teach?",
+      a: "SAT and PSAT preparation, exam preparation for IGCSE, AP and the 11+, and school subjects from Primary 3 to SS 3 (Grades 3 to 12 abroad)."
     },
     {
       q: "How much does it cost?",
-      a: "We start with a free consultation to understand your goals. After that, we'll discuss pricing options that work for your situation. No pressure, no hidden fees."
+      a: "Every fee is on our fees page. The consultation call and the assessment class are free, with no obligation."
     },
     {
-      q: "What if I miss a class?",
-      a: "All classes are recorded. If you miss a session, you'll have access to the recording within 24 hours."
+      q: "How do we start?",
+      a: "Book a free consultation call. Then your child has a free assessment class, and we choose the tutor and plan from what we find."
     },
   ];
 
@@ -190,7 +190,7 @@ export default function Contact() {
                   <Icons.WhatsApp className="w-7 h-7" />
                 </div>
                 <h3 className="text-xl font-bold mb-2">WhatsApp</h3>
-                <p className="text-green-100 mb-4">Fastest response! Usually within minutes.</p>
+                <p className="text-green-100 mb-4">The quickest way to reach us.</p>
                 <span className="font-semibold">Click to chat →</span>
               </a>}
 
@@ -201,21 +201,21 @@ export default function Contact() {
                 </div>
                 <h3 className="text-xl font-bold text-slate-900 mb-2">Email</h3>
                 <p className="text-slate-600 mb-4">For detailed inquiries & documents.</p>
-                <a href="mailto:hello@edutrackhub.com" className="text-teal-600 font-semibold hover:text-teal-700">
-                  hello@edutrackhub.com
+                <a href={`mailto:${CONTACT_EMAIL}`} className="text-teal-600 font-semibold hover:text-teal-700">
+                  {CONTACT_EMAIL}
                 </a>
               </div>
 
               {/* Hours */}
               <div className="bg-white rounded-2xl p-8 shadow-xl border border-slate-100">
-                <div className="w-14 h-14 bg-amber-100 rounded-xl flex items-center justify-center mb-4">
-                  <Icons.Clock className="w-7 h-7 text-amber-600" />
+                <div className="w-14 h-14 bg-teal-100 rounded-xl flex items-center justify-center mb-4">
+                  <Icons.Clock className="w-7 h-7 text-teal-600" />
                 </div>
-                <h3 className="text-xl font-bold text-slate-900 mb-2">Class Hours</h3>
-                <p className="text-slate-600 mb-4">When we hold live classes.</p>
+                <h3 className="text-xl font-bold text-slate-900 mb-2">Lesson hours</h3>
+                <p className="text-slate-600 mb-4">When we hold live lessons.</p>
                 <div className="text-slate-700">
-                  <p className="font-medium">Mon - Fri: 4PM - 9PM</p>
-                  <p className="font-medium">Sat: 10AM - 6PM</p>
+                  {LESSON_HOURS.lines.map((l) => <p key={l} className="font-medium">{l}</p>)}
+                  <p className="mt-2 text-sm text-slate-500">{LESSON_HOURS.zone}</p>
                 </div>
               </div>
             </div>
@@ -232,7 +232,7 @@ export default function Contact() {
                   Send us a message
                 </h2>
                 <p className="text-slate-600 mb-8">
-                  Fill out the form below and we'll get back to you within 24 hours.
+                  Fill out the form below and we'll get back to you.
                 </p>
 
                 {status.message && (
@@ -304,11 +304,11 @@ export default function Contact() {
                         className="w-full px-4 py-3.5 rounded-xl border border-slate-200 focus:ring-2 focus:ring-teal-500 focus:border-transparent transition-all"
                       >
                         <option value="">Select a subject</option>
-                        <option value="IGCSE Tutoring">IGCSE Tutoring</option>
-                        <option value="A-Levels Preparation">A-Levels Preparation</option>
-                        <option value="SAT Preparation">SAT Preparation</option>
-                        <option value="IB Support">IB Support</option>
-                        <option value="AP Classes">AP Classes</option>
+                        <option value="SAT Programme">SAT Programme</option>
+                        <option value="PSAT Prep">PSAT Prep</option>
+                        <option value="Small Group Classes">Small Group Classes</option>
+                        <option value="One-to-One Lessons">One-to-One Lessons</option>
+                        <option value="Fees and payment">Fees and payment</option>
                         <option value="General Inquiry">General Inquiry</option>
                         <option value="Technical Support">Technical Support</option>
                         <option value="Other">Other</option>
@@ -373,7 +373,7 @@ export default function Contact() {
                   Prefer to chat directly?
                 </h2>
                 <p className="text-slate-400 mb-6">
-                  Most students reach us via WhatsApp for the fastest response. 
+                  WhatsApp is the quickest way to reach us. 
                   Click the button or scan the QR code with your phone.
                 </p>
                 <a

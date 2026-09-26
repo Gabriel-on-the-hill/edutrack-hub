@@ -2,7 +2,7 @@
 // Generates XML sitemap for SEO
 
 import prisma from '../../lib/db';
-import { SITE_URL } from '../../lib/site';
+import { SITE_URL, FEATURES } from '../../lib/site';
 import { PROGRAMMES } from '../../lib/programmes';
 import { getAllPosts } from '../../lib/mdx';
 
@@ -12,7 +12,6 @@ export default async function handler(req, res) {
     // Static pages
     const staticPages = [
         { url: '/', priority: '1.0', changefreq: 'weekly' },
-        { url: '/classes', priority: '0.9', changefreq: 'daily' },
         { url: '/consultation', priority: '0.9', changefreq: 'monthly' },
         { url: '/fees', priority: '0.9', changefreq: 'monthly' },
         ...PROGRAMMES.map(p => ({ url: `/programmes/${p.slug}`, priority: '0.9', changefreq: 'monthly' })),
@@ -28,7 +27,7 @@ export default async function handler(req, res) {
 
     // Dynamic class pages
     let classPages = [];
-    try {
+    if (FEATURES.classCatalogue) try {
         const classes = await prisma.class.findMany({
             where: { status: 'SCHEDULED' },
             select: { id: true, updatedAt: true },

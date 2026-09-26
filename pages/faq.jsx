@@ -18,68 +18,73 @@ const Icons = {
     ),
 };
 
+// Keep these answers in line with lib/programmes.js and the homepage FAQ.
 const faqs = [
     {
-        category: 'Getting Started',
+        category: 'Getting started',
         questions: [
             {
-                q: 'How do I sign up for my first class?',
-                a: 'Simply create a free account, browse our classes, and click "Enroll Now" on any class that interests you. Your first class is free—no payment required!',
+                q: 'How do we start?',
+                a: 'Book a free consultation call. We talk about your child, the goal and the fees. Then your child has a free assessment class, where we find their starting point. After that we choose the tutor and the plan, so the first paid lesson is already the right one.',
             },
             {
-                q: 'What equipment do I need?',
-                a: 'You\'ll need a computer or tablet with a stable internet connection, a webcam, and a microphone. We use Google Meet for all our classes, which works directly in your browser.',
+                q: 'Is the consultation really free?',
+                a: 'Yes. The consultation call and the assessment class are both free, with no obligation and no card needed.',
             },
             {
-                q: 'Are there any age requirements?',
-                a: 'Our classes are designed for students aged 13-19 (secondary school and pre-university). Students under 18 should have parent/guardian consent.',
+                q: 'Which ages do you teach?',
+                a: 'Primary 3 to SS 3 in Nigeria, and Grades 3 to 12 (Years 4 to 13) for families in the UK, US and Canada.',
+            },
+            {
+                q: 'What equipment do we need?',
+                a: 'A laptop or tablet with a stable internet connection, a webcam and a microphone. Lessons run on Google Meet, which works in the browser.',
             },
         ],
     },
     {
-        category: 'Classes & Scheduling',
+        category: 'Lessons',
         questions: [
             {
-                q: 'How big are the classes?',
-                a: 'We keep our classes small—typically 4-8 students maximum. This ensures everyone gets individual attention and can ask questions.',
+                q: 'What do you teach?',
+                a: 'SAT and PSAT preparation, exam preparation for IGCSE, AP and the 11+, and school subjects from Primary 3 to SS 3 (Grades 3 to 12 abroad).',
             },
             {
-                q: 'What happens if I miss a class?',
-                a: 'All classes are recorded! You\'ll receive access to the recording within 24 hours. We encourage live attendance for the interactive experience, but recordings are there if you can\'t make it.',
+                q: 'Group or one-to-one?',
+                a: 'In Nigeria, Small Group Classes have at most 4 students, and one-to-one lessons are also available. SAT, PSAT and all lessons for families abroad are one-to-one.',
             },
             {
-                q: 'What curricula do you cover?',
-                a: 'We specialize in IGCSE, A-Levels, SAT, IB, and AP programs. Our focus is primarily on Mathematics and Sciences, but we\'re expanding our subject offerings.',
+                q: 'When are lessons?',
+                a: 'At a fixed weekly time agreed with you. Families abroad agree it in their own time zone.',
             },
             {
-                q: 'What time zone are classes scheduled in?',
-                a: 'Class times are displayed in your local time zone automatically. We offer classes at various times to accommodate students globally.',
+                q: 'What will I see as a parent?',
+                a: 'A one-page report every month: whether your child is on track, which skills moved, and one clear thing we need from you. Families in Nigeria also get a monthly check-in with the tutor.',
             },
         ],
     },
     {
-        category: 'Payment & Pricing',
+        category: 'Fees and payment',
         questions: [
             {
-                q: 'Is the first class really free?',
-                a: 'Yes! Your first class is completely free with no obligation. We want you to experience our teaching style before committing.',
+                q: 'How much does it cost?',
+                a: 'Every fee is on the fees page, for families in Nigeria (in naira) and in the UK, US and Canada (in US dollars).',
             },
             {
-                q: 'What payment methods do you accept?',
-                a: 'We accept all major credit/debit cards through our secure payment processor, Stripe. Payment is made through our website.',
+                q: 'How do we pay?',
+                a: 'Fees are billed monthly. Once you have chosen a plan after the assessment class, we send you the payment details.',
             },
         ],
     },
     {
-        category: 'Technical Support',
+        category: 'Technical help',
         questions: [
             {
                 q: 'The meeting link isn\'t working. What should I do?',
-                a: 'First, try refreshing the page or using a different browser (Chrome works best). If issues persist, contact us immediately and we\'ll help you join.',
+                a: 'Try refreshing the page or opening the link in another browser (Chrome works best). If it still doesn\'t work, message us straight away and we\'ll help you join.',
             },
             {
-                q: 'Can I use my phone to join classes?',
-                a: 'While possible, we recommend using a laptop or desktop computer for the best experience, especially when working through problems together.',
+                q: 'Can my child join from a phone?',
+                a: 'It works, but a laptop or tablet is much better, especially when we work through problems together.',
             },
         ],
     },
@@ -115,7 +120,7 @@ export default function FAQ() {
         <>
             <Head>
                 <title>FAQ - EduTrack Hub</title>
-                <meta name="description" content="Frequently asked questions about EduTrack Hub online tutoring. Learn about classes, scheduling, payments, and more." />
+                <meta name="description" content="Straight answers about EduTrack Hub: how to start, who we teach, group sizes, fees and payment." />
                 <link rel="icon" href="/logo.png" type="image/png" />
                 <link rel="preconnect" href="https://fonts.googleapis.com" />
                 <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
@@ -133,7 +138,7 @@ export default function FAQ() {
                 <section className="pt-28 pb-12 bg-white">
                     <div className="max-w-4xl mx-auto px-5 lg:px-8 text-center">
                         <h1 className="text-4xl sm:text-5xl font-bold text-slate-900 mb-4">
-                            Frequently Asked Questions
+                            Straight answers
                         </h1>
                         <p className="text-xl text-slate-600">
                             Got questions? We've got answers. If you can't find what you're looking for,{' '}
@@ -170,15 +175,23 @@ export default function FAQ() {
                             Still have questions?
                         </h2>
                         <p className="text-teal-100 text-lg mb-8">
-                            We're here to help. Reach out and we'll get back to you within 24 hours.
+                            Ask them on the free consultation call, or send us a message.
                         </p>
-                        <Link
-                            href="/contact"
-                            className="inline-flex items-center gap-2 bg-white text-teal-700 px-8 py-4 rounded-full font-semibold shadow-lg hover:shadow-xl hover:scale-105 transition-all duration-300"
-                        >
-                            Contact Us
-                            <Icons.ArrowRight className="w-5 h-5" />
-                        </Link>
+                        <div className="flex flex-col sm:flex-row gap-4 justify-center">
+                            <Link
+                                href="/consultation"
+                                className="inline-flex items-center justify-center gap-2 bg-amber-500 hover:bg-amber-600 text-white px-8 py-4 rounded-full font-semibold shadow-lg transition-colors"
+                            >
+                                Book a free consultation
+                                <Icons.ArrowRight className="w-5 h-5" />
+                            </Link>
+                            <Link
+                                href="/contact"
+                                className="inline-flex items-center justify-center gap-2 bg-white/10 text-white px-8 py-4 rounded-full font-semibold hover:bg-white/20 transition-colors"
+                            >
+                                Contact us
+                            </Link>
+                        </div>
                     </div>
                 </section>
 

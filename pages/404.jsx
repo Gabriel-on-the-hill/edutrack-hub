@@ -102,16 +102,16 @@ export default function Custom404() {
             <div className="mt-12 pt-8 border-t border-slate-200">
               <p className="text-sm text-slate-500 mb-4">Or try one of these:</p>
               <div className="flex flex-wrap justify-center gap-4">
-                <Link href="/classes" className="text-teal-600 hover:text-teal-700 font-medium">
-                  Browse Classes
+                <Link href="/#programmes" className="text-teal-600 hover:text-teal-700 font-medium">
+                  See programmes
                 </Link>
                 <span className="text-slate-300">•</span>
                 <Link href="/contact" className="text-teal-600 hover:text-teal-700 font-medium">
                   Contact Us
                 </Link>
                 <span className="text-slate-300">•</span>
-                <Link href="/signup" className="text-teal-600 hover:text-teal-700 font-medium">
-                  Sign Up Free
+                <Link href="/consultation" className="text-teal-600 hover:text-teal-700 font-medium">
+                  Book a free consultation
                 </Link>
               </div>
             </div>

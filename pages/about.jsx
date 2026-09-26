@@ -3,6 +3,7 @@ import Link from 'next/link';
 import Image from 'next/image';
 import Navigation from '@/components/layout/Navigation';
 import Footer from '@/components/layout/Footer';
+import { PROOF_FACTS } from '@/lib/site';
 
 const Icons = {
     GraduationCap: ({ className }) => (
@@ -51,7 +52,7 @@ export default function About() {
         <>
             <Head>
                 <title>About - EduTrack Hub</title>
-                <meta name="description" content="Learn about EduTrack Hub and meet the tutor behind the platform. Our mission is to make quality education accessible to students worldwide." />
+                <meta name="description" content="Meet Gabriel, founder and lead tutor of EduTrack Hub: live online tutoring for SAT, PSAT and school subjects, planned from a real assessment of every student." />
                 <link rel="icon" href="/logo.png" type="image/png" />
             </Head>
 
@@ -78,7 +79,7 @@ export default function About() {
                     <div className="max-w-7xl mx-auto px-5 lg:px-8">
                         <div className="grid lg:grid-cols-2 gap-16 items-center">
                             {/* Image */}
-                            <div className="relative max-w-sm mx-auto lg:mx-0">
+                            <div className="relative w-full max-w-sm mx-auto lg:mx-0">
                                 <div className="aspect-[4/5] relative bg-gradient-to-br from-teal-500 to-teal-600 rounded-3xl overflow-hidden shadow-2xl">
                                     <Image
                                         src="/gabriel-portrait.jpg"
@@ -114,9 +115,9 @@ export default function About() {
                                         wondering if everyone else just "gets it" naturally. (Spoiler: they don't.)
                                     </p>
                                     <p>
-                                        With a background in engineering and years of specialized tutoring experience across
-                                        IGCSE, A-Levels, SAT, and IB curricula, I've developed methods that work because
-                                        they start with understanding <em>how</em> each student thinks.
+                                        I trained as a mechanical engineer and have taught for over eight years, from
+                                        Grade 3 to early university, specialising in SAT, IGCSE and AP preparation. The
+                                        methods I use start with understanding <em>how</em> each student thinks.
                                     </p>
                                     <p>
                                         This isn't about shortcuts or tricks. It's about building real understanding
@@ -149,7 +150,7 @@ export default function About() {
                                 {
                                     icon: Icons.Users,
                                     title: 'Small Groups, Big Impact',
-                                    description: 'With only 8 students max per class, everyone gets the attention they need to truly learn.',
+                                    description: 'Group classes have at most 4 students, and SAT, PSAT and lessons abroad are one-to-one, so every student gets real attention.',
                                 },
                                 {
                                     icon: Icons.Heart,
@@ -178,14 +179,9 @@ export default function About() {
                 <section className="py-20">
                     <div className="max-w-7xl mx-auto px-5 lg:px-8">
                         <div className="grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
-                            {[
-                                { number: 'Max 8', label: 'Students per class' },
-                                { number: '4', label: 'Learning hubs' },
-                                { number: 'Live', label: 'Online classes' },
-                                { number: '100%', label: 'Sessions recorded' },
-                            ].map((stat, i) => (
-                                <div key={i}>
-                                    <p className="text-4xl lg:text-5xl font-bold text-teal-600">{stat.number}</p>
+                            {PROOF_FACTS.map((stat) => (
+                                <div key={stat.label}>
+                                    <p className="text-4xl lg:text-5xl font-bold text-teal-600">{stat.value}</p>
                                     <p className="text-slate-600 mt-2">{stat.label}</p>
                                 </div>
                             ))}
@@ -197,17 +193,17 @@ export default function About() {
                 <section className="py-20 bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900">
                     <div className="max-w-4xl mx-auto px-5 lg:px-8 text-center">
                         <h2 className="text-3xl sm:text-4xl font-bold text-white mb-6">
-                            Ready to start your learning journey?
+                            Start with a free consultation.
                         </h2>
                         <p className="text-xl text-slate-300 mb-10">
-                            Learn live with a tutor who builds real understanding, not just exam tricks.
+                            A short call, then a free assessment class. You&apos;ll know where your child stands before you pay for anything.
                         </p>
                         <div className="flex flex-col sm:flex-row gap-4 justify-center">
                             <Link
-                                href="/classes"
-                                className="inline-flex items-center justify-center gap-2 bg-gradient-to-r from-amber-500 to-amber-600 text-white px-8 py-4 rounded-full font-semibold shadow-lg hover:shadow-xl hover:scale-105 transition-all"
+                                href="/consultation"
+                                className="inline-flex items-center justify-center gap-2 bg-amber-500 hover:bg-amber-600 text-white px-8 py-4 rounded-full font-semibold shadow-lg transition-colors"
                             >
-                                Browse Classes
+                                Book a free consultation
                                 <Icons.ArrowRight className="w-5 h-5" />
                             </Link>
                             <Link

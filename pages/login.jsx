@@ -114,15 +114,15 @@ export default function Login() {
               <span className="text-teal-400">learning journey</span>
             </h1>
             <p className="text-slate-300 text-lg mb-8">
-              Pick up right where you left off. Your classes, progress, and recordings are waiting for you.
+              Pick up right where you left off. Your lessons and progress are waiting for you.
             </p>
 
             {/* Stats */}
             <div className="grid grid-cols-3 gap-6">
               {[
-                { number: 'Max 8', label: 'Per class' },
+                { number: 'Up to 4', label: 'Per group' },
                 { number: 'Live', label: 'Online' },
-                { number: '4', label: 'Learning hubs' },
+                { number: 'Monthly', label: 'Report' },
               ].map((stat, i) => (
                 <div key={i} className="text-center">
                   <p className="text-3xl font-bold text-teal-400">{stat.number}</p>
@@ -135,8 +135,8 @@ export default function Login() {
           {/* What you get */}
           <div className="relative z-10 bg-white/10 backdrop-blur-sm rounded-2xl p-6">
             <p className="text-white/90">
-              Live, small-group classes with recordings, notes and personalised feedback after every session —
-              all in one place.
+              Live lessons in small groups or one-to-one, planned from a real assessment, with a
+              progress report every month.
             </p>
           </div>
         </div>

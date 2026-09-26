@@ -2,6 +2,7 @@ import Head from 'next/head';
 import Link from 'next/link';
 import Navigation from '@/components/layout/Navigation';
 import Footer from '@/components/layout/Footer';
+import { CONTACT_EMAIL } from '@/lib/site';
 
 export default function Terms() {
     return (
@@ -25,7 +26,7 @@ export default function Terms() {
                 <main className="pt-28 pb-20">
                     <div className="max-w-3xl mx-auto px-5 lg:px-8">
                         <h1 className="text-4xl font-bold text-slate-900 mb-4">Terms of Service</h1>
-                        <p className="text-slate-500 mb-12">Last updated: December 2024</p>
+                        <p className="text-slate-500 mb-12">Last updated: September 2026</p>
 
                         <div className="prose prose-slate max-w-none space-y-8">
                             <section>
@@ -39,9 +40,9 @@ export default function Terms() {
                             <section>
                                 <h2 className="text-2xl font-bold text-slate-900 mb-4">2. Description of Service</h2>
                                 <p className="text-slate-600 leading-relaxed">
-                                    EduTrack Hub provides online tutoring services including live group classes,
-                                    recorded sessions, and educational resources for various curricula including
-                                    IGCSE, A-Levels, SAT, IB, and AP programs.
+                                    EduTrack Hub provides live online tutoring, in small groups and one-to-one:
+                                    SAT and PSAT preparation, exam preparation for IGCSE, AP and the 11+, and school
+                                    subjects from Primary 3 to SS 3 (Grades 3 to 12 for families abroad).
                                 </p>
                             </section>
 
@@ -50,7 +51,7 @@ export default function Terms() {
                                 <ul className="list-disc list-inside text-slate-600 space-y-2">
                                     <li>You must provide accurate and complete information when creating an account</li>
                                     <li>You are responsible for maintaining the security of your account</li>
-                                    <li>You must be at least 13 years old to use this service</li>
+                                    <li>Students under 13 must be enrolled by a parent or guardian</li>
                                     <li>Parents/guardians must consent for users under 18</li>
                                 </ul>
                             </section>
@@ -60,7 +61,6 @@ export default function Terms() {
                                 <ul className="list-disc list-inside text-slate-600 space-y-2">
                                     <li>Classes are confirmed upon successful payment (for paid classes)</li>
                                     <li>You will receive a Google Meet link before each class</li>
-                                    <li>Class recordings are provided for enrolled students only</li>
                                     <li>Sharing class links or recordings is prohibited</li>
                                 </ul>
                             </section>
@@ -68,9 +68,9 @@ export default function Terms() {
                             <section>
                                 <h2 className="text-2xl font-bold text-slate-900 mb-4">5. Payment Terms</h2>
                                 <ul className="list-disc list-inside text-slate-600 space-y-2">
-                                    <li>Payments are processed securely through Stripe</li>
-                                    <li>Prices are displayed in Nigerian Naira (NGN) unless otherwise specified</li>
-                                    <li>Full payment is required before class access is granted</li>
+                                    <li>Fees are listed on our fees page: in Nigerian Naira (NGN) for families in Nigeria and in US dollars (USD) for families in the UK, US and Canada</li>
+                                    <li>Fees are billed monthly</li>
+                                    <li>Payment is required before lessons begin</li>
                                 </ul>
                             </section>
 
@@ -117,8 +117,8 @@ export default function Terms() {
                                 <h2 className="text-2xl font-bold text-slate-900 mb-4">10. Contact</h2>
                                 <p className="text-slate-600 leading-relaxed">
                                     For questions about these terms, contact us at{' '}
-                                    <a href="mailto:legal@edutrackhub.com" className="text-teal-600 hover:underline">
-                                        legal@edutrackhub.com
+                                    <a href={`mailto:${CONTACT_EMAIL}`} className="text-teal-600 hover:underline">
+                                        {CONTACT_EMAIL}
                                     </a>
                                 </p>
                             </section>

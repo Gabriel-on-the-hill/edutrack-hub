@@ -105,8 +105,8 @@ export default function Signup() {
 
   const benefits = [
     'Book a free consultation to start',
-    'Access to class recordings anytime',
-    'Small groups (max 8 students)',
+    'Your lessons and progress in one place',
+    'Small groups of at most 4, or one-to-one',
     'Direct WhatsApp support',
   ];
 
